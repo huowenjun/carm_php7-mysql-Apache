@@ -1,36 +1,35 @@
 <?php
-
 namespace app\admin\model;
 
 // use think\Model;
 use think\model\Merge;
 use think\Request;
-class Users extends Merge
+class CarSource extends Merge
 {
-    protected $table = 't_users';
-    protected $insert = ['id','ctime','utime','users_info_utime','users_info_ctime','users_money_utime','users_money_ctime'];
+    // protected $table = 't_users'; //'users_info_utime','users_info_ctime','users_money_utime','users_money_ctime'
+    protected $insert = ['id','ctime','utime'];
     protected $createTime = 'ctime';
     protected $updateTime = 'utime';
     // 定义关联模型列表
-    protected  $relationModel = [
-        'UsersInfo' =>  't_users_info',
-        'UsersMoney' => 't_users_money',
-    ];
-    protected $fk = 'users_id';
-    protected $mapFields = [
-        // 为混淆字段定义映射
-        'id'        =>  'Users.id',
-        'users_info_id' =>  'UsersInfo.id',
-        'users_money_id' =>  'UsersMoney.id',
-        'ctime' =>  'Users.ctime',
-        'utime' =>  'Users.utime',
-        'users_info_ctime' =>  'UsersInfo.ctime',
-        'users_info_utime' =>  'UsersInfo.utime',
-        'users_info_users_id' =>  'UsersInfo.users_id',
-        'users_money_ctime' =>  'UsersMoney.ctime',
-        'users_money_utime' =>  'UsersMoney.utime',
-        'users_money_users_id' =>  'UsersMoney.users_id',
-    ];
+    // protected  $relationModel = [
+    //     'UsersInfo' =>  't_users_info',
+    //     'UsersMoney' => 't_users_money',
+    // ];
+    // protected $fk = 'users_id';
+    // protected $mapFields = [
+    //     // 为混淆字段定义映射
+    //     'id'        =>  'Users.id',
+    //     'users_info_id' =>  'UsersInfo.id',
+    //     'users_money_id' =>  'UsersMoney.id',
+    //     'ctime' =>  'Users.ctime',
+    //     'utime' =>  'Users.utime',
+    //     'users_info_ctime' =>  'UsersInfo.ctime',
+    //     'users_info_utime' =>  'UsersInfo.utime',
+    //     'users_info_users_id' =>  'UsersInfo.users_id',
+    //     'users_money_ctime' =>  'UsersMoney.ctime',
+    //     'users_money_utime' =>  'UsersMoney.utime',
+    //     'users_money_users_id' =>  'UsersMoney.users_id',
+    // ];
     protected function setCtimeAttr(){
         return time();
     }
@@ -55,9 +54,10 @@ class Users extends Merge
         return $this->all();
     }
     protected $pk = 'id';
+    //,room_city room_city_name,market market_name,review review_name,status status_name,level level_name,review_time review_times,start_time start_times,end_time end_times
 	public function allList($where = array(),$page = 15)
 	{
-		$data = $this->where($where)->with('usermoney')->field('*,room_city room_city_name,market market_name,review review_name,status status_name,level level_name,review_time review_times,start_time start_times,end_time end_times')->order('id DESC')
+		$data = $this->where($where)->with('usermoney')->field('*')->order('id DESC')
 			->paginate($page, false, [
                 'query' => Request::instance()->request()
             ]);

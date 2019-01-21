@@ -1,25 +1,42 @@
-<!-- <h1>首页</h1> -->
-<div class="bdsharebuttonbox" data-tag="share_1">
-	<img style="padding-left: 0;background-image: url('');height: 16px;line-height: 16px;margin: 6px 6px 6px 0;" src="/static/admin/images/fenxiang.png" class="bds_more" data-cmd="more">
+<div style="padding: 15px;">
+    <div class="layui-col-lg12 layui-col-md12">
+
+        <blockquote style="margin-bottom: 10px;padding: 15px;line-height: 22px;border-left: 5px solid #009688;border-radius: 0 2px 2px 0;background-color: #f2f2f2;font-size: 16px;">服务器信息</blockquote>
+        <table class="layui-table">
+            <tbody>
+            <tr>
+                <th width="25%">Web服务器环境</th>
+                <td><?php echo $server['server_software']; ?></td>
+            </tr>
+            <tr>
+                <td>服务器操作系统</td>
+                <td><?php echo $server['system']; ?></td>
+            </tr>
+            <tr>
+                <td>服务器IP地址</td>
+                <td><?php echo $server['server_addr']; ?></td>
+            </tr>
+            <tr>
+                <td>服务器域名</td>
+                <td><?php echo $server['server_name']; ?></td>
+            </tr>
+            <tr>
+                <td>服务器端口</td>
+                <td><?php echo $server['server_port']; ?></td>
+            </tr>
+            <tr>
+                <td>PHP版本</td>
+                <td><?php echo $server['php']; ?></td>
+            </tr>
+            <tr>
+                <td>最大执行时间 </td>
+                <td><?php echo $server['max_execution_time']; ?></td>
+            </tr>
+            <tr>
+                <td>文件上传限制 </td>
+                <td><?php echo $server['upload_max']; ?></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
-<script>
-	$(function(){
-		var bdText = '分享标题';
-		var bdDesc = '分享摘要';
-		var bdUrl = 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3574250824,2028333054&fm=27&gp=0.jpg';
-		var bdPic = '分享图片';
-		window._bd_share_config = {
-			common : {
-				bdText : bdText,	
-				bdDesc : bdDesc,	
-				bdUrl : bdUrl, 	
-				bdPic : bdPic
-			},
-			share : [{
-				"bdSize" : 16
-			}],
-		}
-		with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
-	})
-	
-</script>

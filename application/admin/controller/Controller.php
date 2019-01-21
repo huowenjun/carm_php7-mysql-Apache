@@ -164,8 +164,8 @@ class Controller extends \think\Controller
 				}
 			}
 			// 菜单左侧
-			
-		}
+            $t_menu[] = ['name' => '网站信息', 'icon' => '&#xe660;', 'child' => [['name' => '网站概览', 'route' => '', 'selected' => 1]]];
+        }
 		else{
 			// 菜单顶部
 			$found_key = array_search($currentUrl, array_column($data, 'url'));
@@ -222,7 +222,9 @@ class Controller extends \think\Controller
 				}
 			}
 		}
-		return array('t_nav'=>$t_nav, 't_menu'=>$t_menu, 'role_operation_ids'=>$role_operation_ids);
+        $res = array('t_nav'=>$t_nav, 't_menu'=>$t_menu, 'role_operation_ids'=>$role_operation_ids);
+//        p($res);
+				return array('t_nav'=>$t_nav, 't_menu'=>$t_menu, 'role_operation_ids'=>$role_operation_ids);
     }
 	/**
      * 验证登录状态

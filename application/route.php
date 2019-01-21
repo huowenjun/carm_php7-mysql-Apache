@@ -36,6 +36,8 @@ Route::rule('delStore', 'admin/store/delete_store');//删除门店
 Route::rule('system-config', 'admin/system/systemconfig_index');//系统设置-编辑页面
 Route::rule('addSystem', 'admin/system/add_systemconfig');//系统设置-添加
 Route::rule('upSystem', 'admin/system/update_systemconfig');//系统设置-编辑
+//主页
+
 //案例
 Route::rule('caseHome', 'admin/case_home/index');//案例管理-列表
 Route::rule('addCase', 'admin/case_home/add_case');//案例管理-添加
@@ -73,10 +75,20 @@ Route::rule('CarDealer', 'admin/users/index');//车商-列表
 Route::rule('addCarDealer', 'admin/users/add');//车商-添加
 Route::rule('upCarDealer', 'admin/users/update');//车商-编辑
 Route::rule('deCarDealer', 'admin/users/destroy');//车商-删除
+// 车源管理
+Route::rule('CarSource', 'admin/car_source/index');//车源-列表
+Route::rule('addCarSource', 'admin/car_source/add');//车源-添加
+Route::rule('upCarSource', 'admin/car_source/update');//车源-编辑
+Route::rule('deCarSource', 'admin/car_source/destroy');//车源-删除
 
-//前台会员管理
-
-
+/**
+ * 活动中心
+ * @userhwj
+ */
+Route::rule('indexActivity', 'admin/activity/index');//活动中心列表
+Route::rule('infoActivity', 'admin/activity/info');//活动中心详情
+Route::rule('editActivity', 'admin/activity/edit');//活动中心增加--修改
+Route::rule('delActivity', 'admin/activity/del');//活动中心删除
 
 
 //前台页面 路由
@@ -97,3 +109,9 @@ Route::rule('CarProvinceList', 'car/setting/province_list'); //省份表
 Route::rule('CarCitiesList', 'car/setting/cities_list');//市接口
 Route::rule('CarAreasList', 'car/setting/areas_list');//区接口
 Route::rule('CarMarketList', 'car/setting/market_list');//二手车市场接口
+
+/**
+ * API
+ * @user:hwj
+ * 活动中心
+ */

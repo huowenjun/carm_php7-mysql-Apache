@@ -1,0 +1,108 @@
+<div class="content-hd">
+    <fieldset class="layui-elem-field layui-field-title" >
+        <legend>活动详情</legend>
+    </fieldset>
+</div>
+<style>
+    .wk div label{
+        margin-right: 50px;
+        font-size: 16px;
+    }
+    /*.wk div{*/
+    /*border-bottom: 1px #b1b3b5 solid;*/
+    /*}*/
+    .tdiv .f{
+        width: 120px;
+        text-align: left;
+    }
+    .tdiv .s{
+        width: 600px;
+        text-align: left;
+    }
+</style>
+<div class="layui-tab layui-tab-card">
+    <ul class="layui-tab-title">
+        <li class="layui-this">基本信息</li>
+        <li>限制信息</li>
+        <li>单日限制</li>
+        <li>单月限制</li>
+        <li>其他</li>
+    </ul>
+    <div class="layui-tab-content" style="height: auto;">
+        <div class="layui-tab-item layui-show wk">
+            <div class="layui-form-item tdiv">
+                <label class="layui-form-label f">标题:</label>
+                <label class="layui-form-label s">{$data['title']}</label>
+            </div>
+            <div class="layui-form-item tdiv">
+                <label class="layui-form-label f">活动时间:</label>
+                <label class="layui-form-label s">{$data['activity_time']}</label>
+            </div>
+            <div class="layui-form-item tdiv">
+                <label class="layui-form-label f">活动城市:</label>
+                <label class="layui-form-label s">{$data['activity_city']}</label>
+            </div>
+        </div>
+        <div class="layui-tab-item">
+            <div class="layui-form-item tdiv">
+                <label class="layui-form-label f">总人数限制:</label>
+                <label class="layui-form-label s">{$data['sum_people']}</label>
+            </div>
+            <div class="layui-form-item tdiv">
+                <label class="layui-form-label f">总币额限制:</label>
+                <label class="layui-form-label s">{$data['sum_b']}</label>
+            </div>
+            <div class="layui-form-item tdiv">
+                <label class="layui-form-label f">总次数限制:</label>
+                <label class="layui-form-label s">{$data['sum_n']}</label>
+            </div>
+        </div>
+        <div class="layui-tab-item">
+            <div class="layui-form-item tdiv">
+                <label class="layui-form-label f">单日总币额限制:</label>
+                <label class="layui-form-label s">{$data['sum_b_day']}</label>
+            </div>
+            <div class="layui-form-item tdiv">
+                <label class="layui-form-label f">单日总次数限制:</label>
+                <label class="layui-form-label s">{$data['sum_n_day']}</label>
+            </div>
+            <div class="layui-form-item tdiv">
+                <label class="layui-form-label f">单人日总币额限制:</label>
+                <label class="layui-form-label s">{$data['sum_b_day_p']}</label>
+            </div>
+            <div class="layui-form-item tdiv">
+                <label class="layui-form-label f">单人日总次数限制:</label>
+                <label class="layui-form-label s">{$data['sum_n_day_p']}</label>
+            </div>
+        </div>
+        <div class="layui-tab-item">
+            <div class="layui-form-item tdiv">
+                <label class="layui-form-label f">单月总币额限制:</label>
+                <label class="layui-form-label s">{$data['sum_b_month']}</label>
+            </div>
+            <div class="layui-form-item tdiv">
+                <label class="layui-form-label f">单月总次数限制:</label>
+                <label class="layui-form-label s">{$data['sum_n_month']}</label>
+            </div>
+            <div class="layui-form-item tdiv">
+                <label class="layui-form-label f">单人月总币额限制:</label>
+                <label class="layui-form-label s">{$data['sum_b_month_p']}</label>
+            </div>
+            <div class="layui-form-item tdiv">
+                <label class="layui-form-label f">单人月总次数限制:</label>
+                <label class="layui-form-label s">{$data['sum_n_month_p']}</label>
+            </div>
+        </div>
+        <div class="layui-tab-item">
+            <div class="layui-form-item tdiv">
+                <label class="layui-form-label f">活动描述:</label>
+                <label class="layui-form-label s">{$data['activity_info']}</label>
+            </div>
+            <div class="layui-form-item tdiv">
+                <label class="layui-form-label f">单人每次币额限制:</label>
+                <label class="layui-form-label s">{$data['people_b']}</label>
+            </div>
+
+        </div>
+    </div>
+</div>
