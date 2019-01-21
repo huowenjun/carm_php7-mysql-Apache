@@ -1,0 +1,831 @@
+  layui.config({
+            base: '/static/layui/city-picker/' //静态资源所在路径
+        }).extend({
+            index: 'city-picker' //主入口模块
+            , citypicker: '{/}/static/layui/city-picker/city-picker' // {/}的意思即代表采用自有路径，即不跟随 base 路径
+        }).use(['layer','form','upload','table', 'laydate','citypicker','laydate','element'], function () {
+
+// layui.use(['layer', 'form','upload','laydate','element'], function(){
+    $ = layui.jquery,
+    layer = layui.layer,
+    element = layui.element,
+    laydate = layui.laydate,
+    form = layui.form,
+    upload = layui.upload,
+    table = layui.table,
+    laydate = layui.laydate,
+    cityPicker = layui.citypicker;
+
+/**
+ * AJAX全局设置
+ */
+$.ajaxSetup({
+    type: "post",
+    dataType: "json"
+});
+/*上传视频*/
+upload.render({
+    elem: '#video'
+    ,url: '/index.php/api/upload/video'
+    ,accept: 'video' //视频
+    ,acceptMime:'video/mp4'
+    ,size:1024*55
+    ,done: function(res){
+        layer.closeAll('loading'); //关闭loading
+        console.log(res)
+      if (res.error === 0) {
+           $("#video_path").val(res.url);
+           $("#video2").attr('src',res.url);
+            // document.getElementById('thumb3').src = res.url;
+        } else {
+            layer.msg(res.message);
+        }
+    },before: function(obj){  //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+        layer.load(1,{shade:0.3,time:5000});  //上传loading
+      }
+    ,error: function(res){
+        layer.closeAll('loading'); //关闭loading
+        console.log(res)
+        layer.msg('上传异常');
+      //请求异常回调
+    }
+  });
+    // 拖拽上传1
+    upload.render({
+        elem: '#up_img'
+        ,url: '/upImages'
+        ,done: function(res){
+            console.log(res)
+            if(res.error == 0){
+                $('#up_img i,#up_img p').hide();
+                $('#up_img img').attr('src',res.url).show().css("max-width","150px");
+                $('#up_img input').val(res.url);
+            }
+        }
+    });
+    // 拖拽上传2
+    upload.render({
+        elem: '#up_img2'
+        ,url: '/upImages'
+        ,done: function(res){
+            console.log(res)
+            if(res.error == 0){
+                $('#up_img2 i,#up_img2 p').hide();
+                $('#up_img2 img').attr('src',res.url).show().css("max-width","150px");
+                $('#up_img2 input').val(res.url);
+            }
+        }
+    });
+    // 拖拽上传3
+    upload.render({
+        elem: '#up_img3'
+        ,url: '/upImages'
+        ,done: function(res){
+            console.log(res)
+            if(res.error == 0){
+                $('#up_img3 i,#up_img3 p').hide();
+                $('#up_img3 img').attr('src',res.url).show().css("max-width","150px");
+                $('#up_img3 input').val(res.url);
+            }
+        }
+    });
+upload.render({
+    elem: '#thumb2' //绑定元素
+    ,url: '/index.php/api/upload/upload' //上传接口
+    ,acceptMime:'image/jpg,image/jpeg,image/png,'
+    ,data: {
+        iswatermark:function(){
+            var a = document.getElementById('iswatermark').value
+            if(a){
+                if(a == 'font'){
+                    return "1";
+                }else if(a == 'watermark'){
+                    return "2";
+                }
+            }else{
+                return "";
+            }   
+        }
+    }
+    ,done: function(res){
+        console.log(document.getElementById('iswatermark').value)
+      //上传完毕回调
+      console.log(res)
+      if (res.error === 0) {
+            document.getElementById('thumb').value = res.url;
+            document.getElementById('thumb3').src = res.url;
+        } else {
+            layer.msg(res.message);
+        }
+    }
+    ,error: function(res){
+        console.log(res)
+      //请求异常回调
+    }
+  });
+
+// upload.render({
+//     elem: '#test1' //绑定元素
+//     ,url: '/index.php/api/upload/upload' //上传接口
+//     ,acceptMime:'image/jpg,image/jpeg,image/png,'
+//     ,done: function(res){
+//       //上传完毕回调
+//       console.log(res)
+//       if (res.error === 0) {
+//             document.getElementById('demo1').value = res.url;
+//             document.getElementById('demoText').src = res.url;
+//         } else {
+//             layer.msg(res.message);
+//         }
+//     }
+//     ,error: function(res){
+//         console.log(res)
+//       //请求异常回调
+//     }
+//   });
+/*单图片上传*/
+ var uploadInst = upload.render({
+    elem: '#test1'
+    ,url: '/index.php/api/upload/upload'
+    ,done: function(res){
+      //如果上传失败
+      if(res.error > 0){
+        return layer.msg('上传失败');
+      }
+     if(res.error == 0){
+        $('#demo1').attr('src', res.url);
+        $('#imgfile1').attr('value',res.url); 
+      }
+      //上传成功
+    }
+  });
+  var uploadInst = upload.render({
+    elem: '#test2'
+    ,url: '/index.php/api/upload/upload'
+    ,done: function(res){
+      //如果上传失败
+      if(res.error > 0){
+        return layer.msg('上传失败');
+      }
+      if(res.error == 0){
+        $('#demo2').attr('src', res.url);
+        $('#imgfile2').attr('value',res.url); //图片链接（base64）
+      }
+      //上传成功
+    }
+  });
+    var uploadInst = upload.render({
+    elem: '#test3'
+    ,url: '/index.php/api/upload/upload'
+    ,done: function(res){
+      //如果上传失败
+      if(res.error > 0){
+        return layer.msg('上传失败');
+      }
+      if(res.error == 0){
+        $('#demo3').attr('src', res.url);
+        $('#imgfile3').attr('value',res.url); //图片链接（base64）
+      }
+      //上传成功
+    }
+  });
+upload.render({
+    elem: '#thumb5' //绑定元素
+    ,url: '/index.php/api/upload/upload' //上传接口
+    ,acceptMime:'image/*'
+    ,data: {
+        iswatermark:function(){
+            var a = document.getElementById('iswatermark').value
+            if(a){
+                if(a == 'font'){
+                    return "1";
+                }else if(a == 'watermark'){
+                    return "2";
+                }
+            }else{
+                return "";
+            }   
+        }
+    }
+    ,done: function(res){
+        console.log(document.getElementById('iswatermark').value)
+      //上传完毕回调
+      console.log(res)
+      if (res.error === 0) {
+            document.getElementById('thumb4').value = res.url;
+            document.getElementById('thumb6').src = res.url;
+        } else {
+            layer.msg(res.message);
+        }
+    }
+    ,error: function(res){
+        console.log(res)
+      //请求异常回调
+    }
+  });
+upload.render({
+    elem: '#thumb8' //绑定元素
+    ,url: '/index.php/api/upload/upload' //上传接口
+    ,acceptMime:'image/jpg,image/jpeg,image/png,'
+    ,data: {
+        iswatermark:function(){
+            var a = document.getElementById('iswatermark').value
+            if(a){
+                if(a == 'font'){
+                    return "1";
+                }else if(a == 'watermark'){
+                    return "2";
+                }
+            }else{
+                return "";
+            }   
+        }
+    }
+    ,done: function(res){
+        console.log(document.getElementById('iswatermark').value)
+      //上传完毕回调
+      console.log(res)
+      if (res.error === 0) {
+            document.getElementById('thumb7').value = res.url;
+            document.getElementById('thumb9').src = res.url;
+        } else {
+            layer.msg(res.message);
+        }
+    }
+    ,error: function(res){
+        console.log(res)
+      //请求异常回调
+    }
+  });
+upload.render({
+    elem: '#thumb11' //绑定元素
+    ,url: '/index.php/api/upload/upload' //上传接口
+    ,acceptMime:'image/jpg,image/jpeg,image/png,'
+    ,data: {
+        iswatermark:function(){
+            var a = document.getElementById('iswatermark').value
+            if(a){
+                if(a == 'font'){
+                    return "1";
+                }else if(a == 'watermark'){
+                    return "2";
+                }
+            }else{
+                return "";
+            }   
+        }
+    }
+    ,done: function(res){
+        console.log(document.getElementById('iswatermark').value)
+      //上传完毕回调
+      console.log(res)
+      if (res.error === 0) {
+            document.getElementById('thumb10').value = res.url;
+            document.getElementById('thumb12').src = res.url;
+        } else {
+            layer.msg(res.message);
+        }
+    }
+    ,error: function(res){
+        console.log(res)
+      //请求异常回调
+    }
+  });
+upload.render({
+    elem: '#thumb14' //绑定元素
+    ,url: '/index.php/api/upload/upload' //上传接口
+    ,acceptMime:'image/jpg,image/jpeg,image/png,'
+    ,data: {
+        iswatermark:function(){
+            var a = document.getElementById('iswatermark').value
+            if(a){
+                if(a == 'font'){
+                    return "1";
+                }else if(a == 'watermark'){
+                    return "2";
+                }
+            }else{
+                return "";
+            }   
+        }
+    }
+    ,done: function(res){
+        console.log(document.getElementById('iswatermark').value)
+      //上传完毕回调
+      console.log(res)
+      if (res.error === 0) {
+            document.getElementById('thumb13').value = res.url;
+            document.getElementById('thumb15').src = res.url;
+        } else {
+            layer.msg(res.message);
+        }
+    }
+    ,error: function(res){
+        console.log(res)
+      //请求异常回调
+    }
+  });
+//多文件列表示例
+      var demoListView = $('#demoList')
+      ,uploadListIns = upload.render({
+        elem: '#testList'
+        ,url: '/index.php/api/upload/upload'
+        ,acceptMime:'image/*'
+        ,accept: 'file'
+        ,multiple: true
+        ,auto: false
+        ,bindAction: '#testListAction'
+        ,data: {
+        
+        }
+        ,choose: function(obj){   
+            var photonum = $("#demoList").attr('photonum');
+             if(photonum){
+                if($("#demoList").children().length >= parseInt(photonum)){
+                    console.log('最多允许上传5张banner图')
+                    layer.msg('最多允许上传5张banner图');
+                    return false;
+                }
+            }
+          var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+          //读取本地文件
+          obj.preview(function(index, file, result){
+            var tr = $(['<tr id="upload-'+ index +'">'
+              ,'<td><img src="'+ result +'"></td>'
+              // ,'<td>'+ file.name +'</td>'
+              // ,'<td>'+ (file.size/1014).toFixed(1) +'kb</td>'
+              ,'<td>等待上传</td>'
+              ,'<td>'
+                ,'<button class="layui-btn layui-btn-mini demo-reload layui-hide">重传</button>'
+                ,'<button class="layui-btn layui-btn-mini layui-btn-danger demo-delete">删除</button>'
+              ,'</td>'
+            ,'</tr>'].join(''));
+            
+            //单个重传
+            tr.find('.demo-reload').on('click', function(){
+              obj.upload(index, file);
+            });
+            
+            //删除
+            tr.find('.demo-delete').on('click', function(){
+              delete files[index]; //删除对应的文件
+              tr.remove();
+              uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+            });
+            
+            demoListView.append(tr);
+          });
+        }
+        ,done: function(res, index, upload){
+            console.log(res)
+          if(res.error == 0){ //上传成功
+            var tr = demoListView.find('tr#upload-'+ index)
+            ,tds = tr.children();
+            tds.eq(0).html('<img src="'+ res.url +'">');
+            tds.eq(1).html('<span style="color: #5FB878;">上传成功</span>'+'<input type="hidden" name="tpic[]" value="'+res.url+'">');
+            tds.eq(2).html(''); //清空操作
+            return delete this.files[index]; //删除文件队列已经上传成功的文件
+          }
+          this.error(index, upload);
+        }
+        ,error: function(index, upload){
+            console.log(index)
+          var tr = demoListView.find('tr#upload-'+ index)
+          ,tds = tr.children();
+          tds.eq(1).html('<span style="color: #FF5722;">上传失败</span>');
+          tds.eq(2).find('.demo-reload').removeClass('layui-hide'); //显示重传
+        }
+      });
+/**
+ * 通用日期时间选择
+ */
+// $('.datetime').on('click', function () {
+//     console.log(this);
+//     laydate.render({
+//         elem: this,
+//         // istime: true,
+//         format: 'YYYY-MM-DD hh:mm:ss'
+//     })
+// });
+lay('.datetime').each(function(){
+    laydate.render({
+      elem: this
+      ,type: 'date'
+      ,trigger: 'click'
+      ,format: 'yyyy-MM-dd'
+    });
+  });
+
+/**
+ * 通用表单提交(AJAX方式)
+ */
+form.on('submit(*)', function (data) {
+    var loading = layer.load(1, {shade:[0.5, '#393D49']}); //0代表加载的风格，支持0-2
+    console.log(data.form.action);
+    console.log(data.form.method);
+    console.log($(data.form).serialize());
+    $.ajax({
+        url: data.form.action,
+        type: data.form.method,
+        data: $(data.form).serialize(),
+        success: function (info) {
+            console.log(info);
+            layer.close(loading); //关闭加载层
+            layer.msg(info.msg,{time:1500},function(){
+                if (info.ret === 1 || info.ret == 200) {
+                    if(info.url){
+                        location.href = info.url;
+                    }else{
+                        location.reload();
+                    }
+                }
+            });
+        }
+    });
+
+    return false;
+});
+    /*通用的是否添加水印 缓存设置 (编辑器使用)*/
+    form.on('select(watermark)', function (data) {
+        $.post("/admin/index/setsession",{watermark:data.value},function(data){
+        })
+    })
+/**
+ * 通用批量处理（审核、取消审核、删除）
+ */
+$('.ajax-action').on('click', function () {
+    var _action = $(this).data('action');
+    layer.open({
+        shade: false,
+        content: '确定执行此操作？',
+        btn: ['确定', '取消'],
+        yes: function (index) {
+            console.log(index)
+            var loading = layer.load(1, {shade:[0.5, '#393D49'],time:5000}); //0代表加载的风格，支持0-2
+            $.ajax({
+                url: _action,
+                data: $('.ajax-form').serialize(),
+                success: function (info) {
+                    console.log(info)
+                    layer.close(loading);
+                    if (info.code === 1) {
+                        setTimeout(function () {
+                            location.href = info.url;
+                        }, 1000);
+                    }
+                    layer.msg(info.msg);
+                }
+            });
+            layer.close(index);
+        }
+    });
+
+    return false;
+});
+
+/**
+ * 通用全选
+ */
+$('.check-all').on('click', function () {
+    $(this).parents('table').find('input[type="checkbox"]').prop('checked', $(this).prop('checked'));
+});
+
+$('.ajax-switch').on('click', function () {
+    var _href = $(this).attr('href');
+    var _con = $(this).attr('con');
+    layer.open({
+        shade: false,
+        content: _con,
+        btn: ['确定', '取消'],
+        yes: function (index) {
+            var loading = layer.load(1, {shade:[0.5, '#393D49']}); //0代表加载的风格，支持0-2
+            $.ajax({
+                url: _href,
+                type: "get",
+                success: function (info) {
+                    console.log(info)
+                    layer.close(loading);
+                    layer.msg(info.msg,{time:1500},function(){
+                        if (info.ret === 1 || info.ret == 200) {
+                            if(info.url){
+                                location.href = info.url;
+                            }else{
+                                location.reload();
+                            }
+                        }
+                    });
+                }
+            });
+            layer.close(index);
+        }
+    });
+    return false;
+});
+/**
+ * 通用删除
+ */
+$('.ajax-delete').on('click', function () {
+   
+    var _href = $(this).attr('href');
+    layer.open({
+        shade: false,
+        content: '确定删除？',
+        btn: ['确定', '取消'],
+        yes: function (index) {
+              console.log(index)
+            var loading = layer.load(1, {shade:[0.5, '#393D49'],time:5000}); //0代表加载的风格，支持0-2
+            $.ajax({
+                url: _href,
+                type: "get",
+                success: function (info) {
+                    console.log(info)
+                    layer.close(loading);
+                    layer.msg(info.msg,{time:1500},function(){
+                        if (info.ret === 1 || info.ret == 200) {
+                            if(info.url){
+                                location.href = info.url;
+                            }else{
+                                location.reload();
+                            }
+                        }
+                    });
+                }
+            });
+            layer.close(index);
+        }
+    });
+    return false;
+});
+/**
+ * 通用确认操作
+ */
+$('.href-confim').on('click', function () {
+    var _href = $(this).attr('href');
+    var msg   = $(this).attr('msg');
+    var _msg  = msg?msg:'确认跳转？';
+    layer.open({
+        shade: false,
+        content:_msg,
+        btn: ['确定', '取消'],
+        yes: function (index) {
+              console.log(index)
+            var loading = layer.load(1, {shade:[0.5, '#393D49'],time:5000}); //0代表加载的风格，支持0-2
+            // location.href = _href;
+            layer.close(loading);
+            layer.close(index);
+        }
+    });
+    return false;
+});
+/**
+ * 通用确认操作
+ */
+$('.ajax-confim').on('click', function () {
+    var _href = $(this).attr('href');
+    layer.open({
+        shade: false,
+        content: '确认操作？',
+        btn: ['确定', '取消'],
+        yes: function (index) {
+            var loading = layer.load(1, {shade:[0.5, '#393D49'],time:5000}); //0代表加载的风格，支持0-2
+            $.ajax({
+                url: _href,
+                type: "get",
+                success: function (info) {
+                      console.log(info)
+                    layer.close(loading);
+                    if (info.code === 1) {
+                        setTimeout(function () {
+                            location.href = info.url;
+                        }, 1000);
+                    }
+                    layer.msg(info.msg);
+                }
+            });
+            layer.close(index);
+        }
+    });
+    return false;
+});
+/**
+ * 通用get - ajax提交
+ */
+$('.ajax-get').on('click', function () {
+    var _href = $(this).attr('href');
+    var _data = $(this).attr('data-param');
+    var loading = layer.load(1, {shade:[0.5, '#393D49'],time:5000}); //0代表加载的风格，支持0-2
+    $.ajax({
+        url: _href,
+        type: "get",
+        data: _data,
+        success: function (info) {
+              console.log(info)
+            layer.close(loading);
+            if (info.code === 1) {
+                setTimeout(function () {
+                    location.href = info.url;
+                }, 1000);
+            }
+            layer.msg(info.msg);
+        }
+    });
+    return false;
+});
+/**
+ * 通用post - ajax提交
+ */
+$('.ajax-post').on('click', function () {
+    var _href = $(this).attr('href');
+    var _data = $(this).attr('data-param');
+    var loading = layer.load(1, {shade:[0.5, '#393D49'],time:5000}); //0代表加载的风格，支持0-2
+    $.ajax({
+        url: _href,
+        type: "post",
+        data: _data,
+        success: function (info) {
+              console.log(info)
+            layer.close(loading);
+            if (info.code === 1) {
+                setTimeout(function () {
+                    location.href = info.url;
+                }, 1000);
+            }
+            layer.msg(info.msg);
+        }
+    });
+    return false;
+});
+/**
+ * 清除缓存
+ */
+$('#clear-cache').on('click', function () {
+    var _url = $(this).data('url');
+    var loading = layer.load(1, {shade:[0.5, '#393D49'],time:5000}); //0代表加载的风格，支持0-2
+    if (_url !== 'undefined') {
+        $.ajax({
+            url: _url,
+            success: function (data) {
+              console.log(data)
+                
+                layer.close(loading);
+                if (data.code === 1) {
+                    setTimeout(function () {
+                        location.href = location.pathname;
+                    }, 1000);
+                }
+                layer.msg(data.msg);
+            }
+        });
+    }
+
+    return false;
+});
+
+
+
+})
+
+/*添加文本信息*/
+function set_content(){
+    layer.open({
+      type: 2,
+      title: '文本信息',
+      shadeClose: true,
+      shade: 0.8,
+      btn: ['保存','取消'],
+      area: ['100%', '100%'],
+      content: "/admin/index/set_content" //iframe的url
+      ,success: function(layero, index){
+        var body = layer.getChildFrame('body', index);
+        var content = $("#content").val();
+        if(content){
+            /*编辑信息时使用，即当文本输入框有数据的时候*/
+            content = JSON.parse(content);
+            var html = '';
+            var nn = 1;
+            $.each(content,function(i,v){
+
+                if(v.type == 1){
+                   html+='<div class="layui-form-item layui-form-text" id="content_text">'
+                    +'<label class="layui-form-label">文本域</label>'
+                   + '<div class="layui-input-block">'
+                     + '<textarea placeholder="请输入文本信息" name="content_text[]" class="layui-textarea">'+v.value+'</textarea>'
+                    +'</div>'
+                   +'<div style="position:absolute;right: 10px;margin-top:-90px;">'
+                    +'<button type="button" onclick="setUp(this)" class="layui-btn layui-btn-group layui-btn-sm"> <i class="layui-icon layui-icon-up"></i></button><br/><br/>'
+                   +  '<button type="button"  onclick="close_div(this)" class="layui-btn layui-btn-danger layui-btn-sm"><i class="layui-icon"></i></button>'
+                   + '</div>'
+                  +'</div>';
+                }else if(v.type == 2){
+                    html+= '<div class="layui-form-item layui-form-text" id="content_image">'
+                    +'<label class="layui-form-label">上传图片</label>'
+                     +'<div class="layui-input-block">'
+                        +'<input type="text" name="content_image[]" value="'+v.value+'" readonly placeholder="（选填）请上传图片" class="layui-input layui-input-inline" id="imgfile1">'
+                        +'<button type="button" class="layui-btn demoMore demoMore'+nn+'">上传</button>'
+                     +'</div>'
+                     +'<div style="position:absolute;right: 10px;margin-top:-34px;">'
+                        +' <button type="button" onclick="setUp(this)" class="layui-btn layui-btn-group layui-btn-sm"> <i class="layui-icon layui-icon-up"></i></button>'
+                         +'<button type="button" onclick="close_div(this)" class="layui-btn layui-btn-danger layui-btn-sm"><i class="layui-icon"></i></button>'
+                     +'</div>'
+                   +'</div>';
+                   ++nn;
+                }
+            })
+            body.find("#div_container").html(html);
+            layui.use('upload', function(){
+                var upload = layui.upload;
+                upload.render({
+                    elem: body.find(".demoMore")
+                     ,url: '/index.php/api/upload/upload'
+                     ,accept:'images'
+                    ,done: function(res, index, upload){
+                        console.log(res)
+                        if(res.error == 0){
+                            var item = this.item;
+                             $(item).prev('input').val(res.url)
+                        }
+                    }
+                  })
+            })
+        }
+        
+    
+       
+      }
+      ,yes: function (index, layero) {
+        console.log(index)
+        console.log(layero)
+        /*点击保存 获取所有的输入信息*/
+        content = layero.find("iframe")[0].contentWindow.$("#div_container").serializeArray();  
+          var arr = [];
+          var isfalse = 0;
+            $.each(content,function(i,v){
+                if(!$.trim(v.value)){
+                    isfalse =1;
+                }
+              arr[i] = {};
+              if(v.name == "content_text[]"){
+                arr[i]['type'] = 1;
+                arr[i]['value'] = v.value;
+              }else if(v.name == "content_image[]"){
+                arr[i]['type'] = 2;
+                arr[i]['value'] = v.value;
+              }
+            })
+            // console.log(arr) 
+            // 
+            if(isfalse == 1){
+                layer.msg('所填选项不能为空');
+            }else{
+                arr = JSON.stringify(arr);
+                // console.log(arr)
+                // return JSON.parse(array)
+                // console.log(JSON.parse(arr))
+                $("#content").val(arr)
+                // console.log($("#content").nextAll('label'));
+                if(!arr){
+                    $("#content").nextAll('label').eq(1).show();
+                    $("#content").nextAll('label').eq(0).hide();
+                }else{
+                     $("#content").nextAll('label').eq(0).show();
+                     $("#content").nextAll('label').eq(1).hide();
+                }
+                layer.close(index);
+            }
+
+    },btn2: function(index, layero){
+        if($("#content").text() || $("#content").val()){
+            $("#content").nextAll('label').eq(0).show();
+            $("#content").nextAll('label').eq(1).hide();
+        }else{
+             $("#content").nextAll('label').eq(1).show();
+             $("#content").nextAll('label').eq(0).hide();
+        }
+    },
+    cancel: function(index, layero){ 
+        if($("#content").text() || $("#content").val()){
+            $("#content").nextAll('label').eq(0).show();
+            $("#content").nextAll('label').eq(1).hide();
+        }else{
+             $("#content").nextAll('label').eq(1).show();
+             $("#content").nextAll('label').eq(0).hide();
+        }
+    } 
+    }); 
+
+  form.verify({
+        imgs: function(value){
+          if(!value){
+            return '资质图片必须上传';
+          }
+        }
+        ,pass: [
+          /^[A-Za-z0-9]{8,}/
+          ,'密码最少设置8位，且不能出现空格'
+        ]
+        ,intmoney:[
+        /^[1-9]\d*00$/
+        ,'充值金额必须为100的倍数'
+        ]
+      });
+}

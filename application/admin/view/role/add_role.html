@@ -1,0 +1,50 @@
+<div class="content-hd">
+	<fieldset class="layui-elem-field layui-field-title" >
+		<legend>修改角色</legend>
+	</fieldset>
+</div>
+<div class="rhaphp-srivice-register">
+	<form class="layui-form layui-form-pane" action="" lay-filter="example">
+		<div class="layui-form-item">
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color">*</i>职能名称</label>
+				<div class="layui-input-block">
+					<input name="name" required="" lay-verify="required" placeholder="请输入角色名称" autocomplete="off" class="layui-input" type="text">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color">*</i>等级</label>
+				<div class="layui-input-block">
+					<input name="level" required="" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="number">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button class="layui-btn" lay-submit="" lay-filter="ActAddRole">立即提交</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<script>
+    layui.use('form', function () {
+        var form = layui.form;
+        form.on('submit(ActAddRole)', function (data) {
+			$.post(
+				'addRole',
+				data.field,
+				function(obj){
+					if(obj.ret == 200){
+						layer.msg(obj.msg, {time: 1500}, function(){
+							window.location.reload();
+						});
+					}
+					else{
+						layer.msg(obj.msg, {time: 1500, anim: 6});
+					}
+				}
+			);
+            return false;
+        });
+    });
+</script>

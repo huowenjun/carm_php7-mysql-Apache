@@ -1,0 +1,61 @@
+<div class="content-hd">
+	<fieldset class="layui-elem-field layui-field-title" >
+		<legend>{$pagetitle}</legend>
+	</fieldset>
+</div>
+<div class="rhaphp-srivice-register">
+	<form class="layui-form layui-form-pane" action="upMarket" lay-filter="example" method="post">
+	<input type="hidden" name="id" value="<?php echo $info['id']; ?>">
+		<div class="layui-form-item">
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color">*</i>归属城市</label>
+				<div class="layui-input-inline">
+					<select name="room_city" required="" lay-verify="required" lay-search>
+						{volist name="city_list" id="ct"}
+							<option value="{$ct.id}" {eq name="info.room_city" value="$ct.id"}selected{/eq}>{$ct.text}</option>
+						{/volist}
+					</select>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color"></i>市场名称</label>
+				<div class="layui-col-lg3">
+					<input name="name" required="" placeholder="请输入市场名称" value="{$info.name}" autocomplete="off" class="layui-input" type="text">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color"></i>市场地址</label>
+				<div class="layui-col-lg3">
+					<textarea name="address" placeholder="请输入市场地址" autocomplete="off" class="layui-textarea">{$info.address}</textarea>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button class="layui-btn" lay-submit="" lay-filter="*">立即提交</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<script>
+//    layui.use('form', function () {
+//        var form = layui.form;
+//        form.on('submit(ActUpRole)', function (data) {
+//			$.post(
+//				'UpRole',
+//				data.field,
+//				function(obj){
+//					if(obj.ret == 200){
+//						layer.msg(obj.msg, {time: 1500}, function(){
+//							window.location.reload();
+//						});
+//					}
+//					else{
+//						layer.msg(obj.msg, {time: 1500, anim: 6});
+//					}
+//				}
+//			);
+//            return false;
+//        });
+//    });
+</script>

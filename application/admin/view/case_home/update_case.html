@@ -1,0 +1,204 @@
+<style>
+	.layui-form-label{width: 150px!important;}
+	.layui-input-block{margin-left:150px!important;}
+</style>
+<div class="content-hd">
+	<fieldset class="layui-elem-field layui-field-title" >
+		<legend>{$pagetitle}</legend>
+	</fieldset>
+</div>
+<div class="rhaphp-srivice-register">
+	<form class="layui-form layui-form-pane" action="upCase" method="post" lay-filter="example">
+	<input type="hidden" name="id" value="<?php echo $info['id']; ?>">
+		<div class="layui-form-item">
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color"></i>标题</label>
+				<div class="layui-input-block">
+					<input name="title" required="required" value="{$info.title}" placeholder="请输入标题" autocomplete="off" class="layui-input" type="text">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color"></i>简介</label>
+				<div class="layui-input-block">
+					<textarea name="describe" id="describe" cols="30" rows="10" class="layui-textarea">{$info.describe}</textarea>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color"></i>首页案例标题</label>
+				<div class="layui-input-block">
+					<input name="home_title" required="" value="{$info.home_title}"  placeholder="请输入首页案例标题" autocomplete="off" class="layui-input" type="text">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">首页案例logo</label>
+				<div class="layui-upload-drag" id="up_img">
+					{empty name="info.home_logo"}
+						<input type="hidden" name="home_logo">
+						<img src="{$info.home_title}" style="display: none" alt="">
+						<i class="layui-icon"></i>
+						<p>点击上传，或将文件拖拽到此处</p>
+					{else /}
+						<input type="hidden" name="home_logo" value="{$info.home_logo}">
+						<img src="{$info.home_logo}" style="max-width: 150px;max-height: 150px;background: #ddd" alt="">
+					{/empty}
+
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">首页封面</label>
+				<div class="layui-upload-drag" id="up_img2">
+					{empty name="info.home_image"}
+					<input type="hidden" name="home_image">
+					<img src="" style="display: none" alt="">
+					<i class="layui-icon"></i>
+					<p>点击上传，或将文件拖拽到此处</p>
+					{else /}
+					<input type="hidden" name="home_image" value="{$info.home_image}">
+					<img src="{$info.home_image}" style="max-width: 150px;max-height: 150px;background: #ddd" alt="">
+					{/empty}
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">列表封面</label>
+				<div class="layui-upload-drag" id="up_img3">
+					<input type="hidden" name="image">
+					{empty name="info.image"}
+					<input type="hidden" name="image">
+					<img src="" style="display: none" alt="">
+					<i class="layui-icon"></i>
+					<p>点击上传，或将文件拖拽到此处</p>
+					{else /}
+					<input type="hidden" name="image" value="{$info.image}">
+					<img src="{$info.image}" style="max-width: 150px;max-height: 150px;background: #ddd" alt="">
+					{/empty}
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">经典推荐封面</label>
+				<div class="layui-input-inline layui-btn-container" style="width: auto;">
+					<button class="layui-btn layui-btn-primary" type="button" id="editimg">裁剪图片</button >
+				</div>
+				<div class="layui-form-mid layui-word-aux">150*150</div>
+				<div class="layui-input-inline">
+					<div class="layui-upload-list" style="margin:0">
+						<img src="{$info.img}" style="max-width: 150px;max-height: 150px;" id="srcimgurl" class="layui-upload-img">
+						<input type="hidden" id="inputimgurl" name="img" value="{$info.img}">
+					</div>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color"></i>案例类型</label>
+				<div class="layui-input-inline">
+					<select name="type" id="type">
+						{volist name="case_type" id="ct"}
+						<option value="{$ct.id}" {eq name="info.type" value="$ct.id"}selected{/eq}>{$ct.name}</option>
+						{/volist}
+					</select>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color"></i>设计师</label>
+				<div class="layui-input-inline">
+					<select name="userid" lay-verify="" lay-search>
+						{volist name="oa_user_ui_list" id="v"}
+						<option value="{$v.userid}" {eq name="info.userid" value="$v.userid"}selected{/eq}>{$v.name}</option>
+						{/volist}
+					</select>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color"></i>开发语言</label>
+				<div class="layui-input-block">
+					<input type="text" name="development_language" value="{$info.development_language}" placeholder="请输入开发语言" class="layui-input" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color"></i>服务类型</label>
+				<div class="layui-input-inline">
+					<select name="service_type" lay-verify="" lay-search>
+						{volist name="service_list" id="v2"}
+						<option value="{$v2.id}" {eq name="info.service_type" value="$v2.id"}selected{/eq}>{$v2.name}</option>
+						{/volist}
+					</select>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color"></i>项目类型</label>
+				<div class="layui-input-inline">
+					<select name="project_type" lay-verify="" lay-search>
+						{volist name="project_list" id="v3"}
+						<option value="{$v3.id}" {eq name="info.project_type" value="$v3.id"}selected{/eq}>{$v3.name}</option>
+						{/volist}
+					</select>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color"></i>所在城市</label>
+				<div class="layui-input-inline">
+					<select name="city_id" lay-verify="" lay-search>
+						{volist name="cities_list" id="v4"}
+						<option value="{$v4.id}" {eq name="info.city_id" value="$v4.id"}selected{/eq}>{$v4.name}</option>
+						{/volist}
+					</select>
+				</div>
+			</div>
+			<div class="layui-form-item" pane="" style="width: 338px">
+				<label class="layui-form-label">推荐首页展示</label>
+				<div class="layui-input-inline" style="margin-left: 155px">
+					<input type="radio" name="is_home" value="1" title="是" {eq name="info.is_home" value="1"} checked {/eq}>
+					<input type="radio" name="is_home" value="0" title="否" {eq name="info.is_home" value="0"} checked {/eq}>
+				</div>
+			</div>
+			<div class="layui-form-item" pane="" style="width: 338px">
+				<label class="layui-form-label">推荐列表展示</label>
+				<div class="layui-input-inline" style="margin-left: 155px">
+					<input type="radio" name="is_list" value="1" title="是" {eq name="info.is_list" value="1"} checked {/eq}>
+					<input type="radio" name="is_list" value="0" title="否" {eq name="info.is_list" value="0"} checked {/eq}>
+				</div>
+			</div>
+			<div class="layui-form-item" pane="" style="width: 338px">
+				<label class="layui-form-label">推荐经典案例</label>
+				<div class="layui-input-inline" style="margin-left: 155px">
+					<input type="radio" name="recommend" value="1" title="是" {eq name="info.recommend" value="1"} checked {/eq}>
+					<input type="radio" name="recommend" value="0" title="否" {eq name="info.recommend" value="0"} checked {/eq}>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color"></i>排序</label>
+				<div class="layui-input-inline">
+					<input name="px" value="{$info.px}" placeholder="请输入排序" autocomplete="off" class="layui-input" type="number">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button class="layui-btn" lay-submit="" lay-filter="*">立即提交</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<script>
+	layui.config({
+		base: '/static/cropper/' //layui自定义layui组件目录
+	}).use(['form','croppers'], function () {
+		var $ = layui.jquery
+				,form = layui.form
+				,croppers = layui.croppers
+				,layer= layui.layer;
+
+		//创建一个头像上传组件
+		croppers.render({
+			elem: '#editimg'
+			,saveW:150     //保存宽度
+			,saveH:150
+			,mark:1/1    //选取比例
+			,area:'900px'  //弹窗宽度
+			,url: "CupImages"  //图片上传接口返回和（layui 的upload 模块）返回的JOSN一样
+			,done: function(url){ //上传完毕回调
+				console.log(url);
+				$("#inputimgurl").val(url);
+				$("#srcimgurl").attr('src',url);
+			}
+		});
+	});
+</script>

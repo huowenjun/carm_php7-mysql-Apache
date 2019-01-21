@@ -1,0 +1,58 @@
+<div class="content-hd">
+	<fieldset class="layui-elem-field layui-field-title" >
+		<legend>{$pagetitle}</legend>
+	</fieldset>
+</div>
+<div class="rhaphp-srivice-register">
+	<form class="layui-form layui-form-pane" action="upService" lay-filter="example" method="post">
+	<input type="hidden" name="id" value="<?php echo $info['id']; ?>">
+		<div class="layui-form-item">
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color"></i>类型名称</label>
+				<div class="layui-input-inline">
+					<input name="name" required="" placeholder="请输入类型名称" value="{$info['name']}" autocomplete="off" class="layui-input" type="text">
+				</div>
+			</div>
+			<div class="layui-form-item" pane="" style="width: 298px">
+				<label class="layui-form-label">单选框</label>
+				<div class="layui-input-inline">
+					<input type="radio" name="status" value="1" title="启用" {eq name="info.status" value="1"} checked {/eq}>
+					<input type="radio" name="status" value="0" title="禁用" {eq name="info.status" value="0"} checked {/eq}>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color"></i>排序</label>
+				<div class="layui-input-inline">
+					<input name="px" required="" placeholder="请输入排序" value="{$info.px}" autocomplete="off" class="layui-input" type="text">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button class="layui-btn" lay-submit="" lay-filter="*">立即提交</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<script>
+//    layui.use('form', function () {
+//        var form = layui.form;
+//        form.on('submit(ActUpRole)', function (data) {
+//			$.post(
+//				'UpRole',
+//				data.field,
+//				function(obj){
+//					if(obj.ret == 200){
+//						layer.msg(obj.msg, {time: 1500}, function(){
+//							window.location.reload();
+//						});
+//					}
+//					else{
+//						layer.msg(obj.msg, {time: 1500, anim: 6});
+//					}
+//				}
+//			);
+//            return false;
+//        });
+//    });
+</script>

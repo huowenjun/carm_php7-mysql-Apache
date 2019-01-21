@@ -1,0 +1,97 @@
+<div class="content-hd">
+	<fieldset class="layui-elem-field layui-field-title" >
+		<legend>{$pagetitle}</legend>
+		<!-- <?php if(in_array(31, $role_operation_ids)): ?>
+		<div style="text-align: left;">
+			<a href="addProject.html" class="layui-btn layui-btn-sm layui-btn-normal">增加</a>
+		</div>
+		<?php endif; ?> -->
+		<form class="layui-form" action="/market" method="post">
+			
+			<div class="layui-inline layui-search">
+				<label class="layui-form-label">市场名称</label>
+				<div class="layui-input-inline">
+					<input name="keywords" placeholder="市场名称关键词" autocomplete="off" value="<?php echo input('keywords')?>" class="layui-input layui-input-search" type="text">
+				</div>
+			</div>
+			<div class="layui-inline layui-search">
+				<label class="layui-form-label">城市</label>
+				<div class="layui-input-inline layui-search">
+					<select name="city" lay-search>
+						<option value="">请选择</option>
+						{volist name="city_list" id="ct"}
+							<option value="{$ct.id}" <?php if(input('city') == $ct['id']){echo 'selected';}?>>{$ct.text}</option>
+						{/volist}
+					</select>
+				</div>
+			</div>
+			<div class="layui-inline layui-search">
+				<label class="layui-form-label">状态</label>
+				<div class="layui-input-inline layui-search">
+					<select name="status">
+						<option value="">请选择</option>
+						<option value="1" <?php if(input('status') == 1){echo 'selected';}?>>开通</option>
+						<option value="2" <?php if(input('status') == 2){echo 'selected';}?>>关闭</option>
+					</select>
+				</div>
+			</div>
+				<button class="layui-btn layui-btn-primary layui-search" lay-submit lay-filter="formDemo">搜索</button>
+				<?php if(in_array(62, $role_operation_ids)): ?>
+				<a href="addmarket.html" class="layui-btn layui-btn-sm layui-btn-normal">新增</a>
+				<?php endif; ?>
+		</form>	
+	</fieldset>
+</div>
+<div style="padding: 0px 10px 0px 10px;">
+	<table class="layui-table" >
+		<colgroup>
+			<col width="100">
+			<col width="180">
+			<col >
+			<col>
+		</colgroup>
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>城市</th>
+				<th>市场</th>
+				<th>市场地址</th>
+				<th>状态</th>
+				<th>开通时间</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+		<?php if (!(empty($list->total()))): foreach ($list as $vo): ?>
+		<tr>
+			<td><?php echo $vo['id']; ?></td>
+			<td><?php echo $vo['room_city_name']; ?></td>
+			<td><?php echo $vo['name']; ?></td>
+			<td><?php echo $vo['address']; ?></td>
+			<td><?php echo $vo['status'] == 1 ? '开通' : '关闭'; ?></td>
+			<td><?php echo $vo['start_time_date']; ?></td>
+			<td>
+				<a class="rha-bt-a" href="upMarket.html?id={$vo.id}" >编辑</a>
+				{neq name="vo.status" value="1"}
+				<a class="rha-bt-a ajax-switch" href="staMarket.html?id={$vo.id}&status=1" con="确认要开通市场吗">开通</a>
+				{else /}
+				<a class="rha-bt-a layui-disabled">开通</a>
+				{/neq}
+				{neq name="vo.status" value="2"}
+				<a class="rha-bt-a ajax-switch" href="staMarket.html?id={$vo.id}&status=2" con="确认要关闭市场吗">关闭</a>
+				{else /}
+				<a class="rha-bt-a layui-disabled">关闭</a>
+				{/neq}
+			</td>
+		</tr>
+		<?php endforeach; else: ?>
+		<tr>
+			<td colspan="7">暂无记录</td>
+		</tr>
+		<?php endif; ?>
+		</tbody>
+	</table>
+	<?php if (!(empty($list))): ?>
+		<div style="text-align: left;"><?php echo $list->render(); ?></div>
+	<?php endif; ?>
+</div>

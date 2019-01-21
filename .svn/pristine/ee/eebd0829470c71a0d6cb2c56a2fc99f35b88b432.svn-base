@@ -1,0 +1,89 @@
+<div class="content-hd">
+	<fieldset class="layui-elem-field layui-field-title" >
+		<legend>修改菜单</legend>
+	</fieldset>
+</div>
+<div class="rhaphp-srivice-register">
+	<form class="layui-form layui-form-pane" action="" >
+	<input type="hidden" name="pkid" value="<?php echo $lists['id']; ?>">
+	<input type="hidden" name="beName" value="<?php echo $lists['name']; ?>">
+		<div class="layui-form-item">
+			<label class="layui-form-label"><i class="required-color">*</i>菜单名称</label>
+			<div class="layui-input-block">
+				<input type="text" name="name" required  lay-verify="required" placeholder="请输入菜单名称" autocomplete="off" class="layui-input" value="<?php echo $lists['name']; ?>">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label"><i class="required-color">*</i>上级菜单</label>
+			<div class="layui-input-block">
+				<select name="pid" lay-verify="required">
+					<option value="0">顶级菜单</option>
+					<?php foreach($list as $v): ?>
+						 <option <?php if($v['id'] === $lists['pid']): ?>selected<?php endif; ?> value="<?php echo $v['id']; ?>"><?php echo $v['name']; ?></option>
+						 <?php if(!(empty($v['child']))): if(is_array($v['child'])): $i = 0; foreach ($v['child'] as $v2): ++$i; ?>
+							<option <?php if($v2['id'] === $lists['pid']): ?>selected<?php endif; ?> value="<?php echo $v2['id']; ?>">&nbsp;&nbsp;&nbsp; ├<?php echo $v2['name']; ?></option>
+							<?php if(!(empty($v2['child']))): if(is_array($v2['child'])): $ii = 0; foreach ($v2['child'] as $v3): ++$ii; ?>
+								<option <?php if($v3['id'] === $lists['pid']): ?>selected<?php endif; ?> value="<?php echo $v3['id']; ?>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ├<?php echo $v3['name']; ?></option>
+					<?php endforeach; endif; endif; endforeach; endif; endif; endforeach; ?>
+				</select>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label"><i class="required-color">*</i>菜单URL</label>
+			<div class="layui-input-inline">
+				<input name="url" required  lay-verify="required" placeholder="请输入URL" autocomplete="off" class="layui-input" type="text" value="<?php echo $lists['url']; ?>">
+			</div>
+			<div class="layui-form-mid layui-word-aux">注意：(小写)模块/控制器/操作方法(空如：NULL)</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label"><i class="required-color">*</i>模板码</label>
+			<div class="layui-input-inline">
+				<input name="route" required  lay-verify="required" placeholder="请输入模板码" autocomplete="off" class="layui-input" type="text" value="<?php echo $lists['route']; ?>">
+			</div>
+			<div class="layui-form-mid layui-word-aux">注意：字符串(空如：NULL)</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">排序</label>
+			<div class="layui-input-inline">
+				<input name="sort"  placeholder="请输入排序" autocomplete="off" class="layui-input" type="text" value="<?php echo $lists['sort']; ?>">
+			</div>
+			<div class="layui-form-mid layui-word-aux">数字越小越靠前</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">图标</label>
+			<div class="layui-input-inline">
+				<input name="icon"  placeholder="请输入图标" autocomplete="off" class="layui-input" type="text" value="<?php echo htmlspecialchars($lists['icon']); ?>">
+			</div>
+			<div class="layui-form-mid layui-word-aux">字符串</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-input-block">
+				<button class="layui-btn" lay-submit lay-filter="ADM">立即提交</button>
+				<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+			</div>
+		</div>
+	</form>
+</div>
+<script>
+layui.use('form', function(){
+    var form = layui.form;
+	form.on('submit(ADM)', function (data) {
+		$.post(
+			"system-updateMenu",
+			data.field,
+			function (obj) {
+				if(obj.ret == 200){
+					layer.msg(obj.msg, {time: 1500}, function(){
+						window.location.reload();
+					});
+				}
+				else{
+					layer.msg(obj.msg, {time: 1500, anim: 6});
+				}
+			},
+			"json"
+		);
+		return false;
+	});
+});
+</script>

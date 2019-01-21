@@ -1,0 +1,183 @@
+
+<div class="content-hd">
+	<fieldset class="layui-elem-field layui-field-title" >
+		<legend>{$pagetitle}</legend>
+		
+		<?php if(in_array(10, $role_operation_ids)): ?>
+		<!-- <div style="text-align: left;"> -->
+			<!-- <a href="addmember.html" class="layui-btn layui-btn-sm layui-btn-normal">增加成员</a> -->
+		<!-- </div> -->
+		<?php endif; ?>
+		<form class="layui-form" action="/adminmember" method="post">
+			
+			<div class="layui-inline layui-search">
+				<label class="layui-form-label">姓名</label>
+				<div class="layui-input-inline">
+					<input name="uname" placeholder="请输入姓名" autocomplete="off" value="{$search_list['uname']?:''}" class="layui-input layui-input-search" type="text">
+				</div>
+			</div>
+			<div class="layui-inline layui-search">
+				<label class="layui-form-label">域账号</label>
+				<div class="layui-input-inline">
+					<input name="admin_name" placeholder="请输入域账号" autocomplete="off" value="{$search_list['admin_name']?:''}" class="layui-input layui-input-search" type="text">
+				</div>
+			</div>
+	
+			<div class="layui-inline layui-search">
+				<label class="layui-form-label">电话</label>
+				<div class="layui-input-inline">
+					<input name="tel" placeholder="请输入电话" autocomplete="off" value="{$search_list['tel']?:''}" class="layui-input layui-input-search" type="text">
+				</div>
+			</div>
+			<div class="layui-inline layui-search">
+				<label class="layui-form-label">职能</label>
+				<div class="layui-input-inline layui-search">
+					<select name="role_id" lay-search>
+						<option value="">请选择</option>
+						{volist name="position_list" id="us"}
+							<option value="{$us.id}" <?php if(input('role_id') == $us['id']){echo 'selected';}?>>{$us.name}</option>
+						{/volist}
+					</select>
+				</div>
+			</div>
+			<div class="layui-inline layui-search">
+				<label class="layui-form-label">城市</label>
+				<div class="layui-input-inline">
+					<select name="room_city" lay-search>
+					<option value="">请选择</option>
+						{volist name="city_list" id="ct"}
+							<option value="{$ct.id}" <?php if(input('room_city') == $ct['id']){echo 'selected';}?>>{$ct.text}</option>
+						{/volist}
+					</select>
+				</div>
+			</div>
+				<button class="layui-btn layui-btn-primary layui-search" lay-submit lay-filter="formDemo">搜索</button>
+				<a href="addmember.html" class="layui-btn layui-btn-sm layui-btn-normal">增加成员</a>
+		</form>	
+	</fieldset>
+</div>
+<div style="padding: 0px 10px 0px 10px;">
+	<table class="layui-table" >
+		<colgroup>
+			<col width="150">
+			<col width="200">
+			<col>
+		</colgroup>
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>姓名</th>
+				<th>域账号</th>
+				<th>电话</th>
+				<th>职能</th>
+				<th>城市</th>
+				<th>状态</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+		<?php if (!(empty($list->total()))): foreach ($list as $vo): ?>
+		<tr>
+			<td><?php echo $vo['id']; ?></td>
+			<td><?php echo $vo['uname']; ?></td>
+			<td><?php echo $vo['admin_name']; ?></td>
+			<td><?php echo $vo['tel']; ?></td>
+			<td class="look_smal">
+				{volist name="vo.adminrole" id="ro" key="k2"}
+				{gt name="k2" value="2"}
+					{if condition="$k2 egt 1 && $k2 elt 2"}
+					<font>城市：<font>{$ro.city_picker}</font> || 职能：<font>{$ro.role_name}</font></font><br/>
+					{/if}
+				{else /}
+					<font>城市：<font>{$ro.city_picker}</font> || 职能：<font>{$ro.role_name}</font></font><br/>
+				{/gt}
+				{/volist}
+			</td>
+			<td class="look_all" style="display: none;">
+				{volist name="vo.adminrole" id="ro" key="k2"}
+					<font>城市：<font>{$ro.city_picker}</font> || 职能：<font>{$ro.role_name}</font></font><br/>
+				{/volist}
+			</td>
+			<td><?php echo $vo['room_city_name']; ?></td>
+			<td><?php if($vo['status'] == '1'): ?>在职<?php else: ?>已离职<?php endif; ?></td>
+			<td>
+			<?php if($vo['id'] == 1): ?>
+				<?php if($admin_info['id'] == 1): ?>
+					<?php if($vo['status'] == '1'): ?>
+						<a class="rha-bt-a" onclick="disabledAdmin('<?php echo $vo['id']; ?>', '0', '<?php echo $vo['admin_name']; ?>')" href="javascript:;">离职</a>
+					<?php else: ?>
+						<a class="rha-bt-a" onclick="disabledAdmin('<?php echo $vo['id']; ?>', '1', '<?php echo $vo['admin_name']; ?>')" href="javascript:;">在职</a>
+					<?php endif; ?>
+					<!-- <a class="rha-bt-a" href="updateAdminPwd.html?id=<?php echo $vo['id']; ?>">编辑</a> -->
+					<a class="rha-bt-a" href="editmember.html?id=<?php echo $vo['id']; ?>">编辑</a>
+				<?php endif; ?>
+			<?php else: ?>
+				<?php if(in_array(12, $role_operation_ids)): ?>
+					<?php if($vo['status'] == '1'): ?>
+						<a class="rha-bt-a" onclick="disabledAdmin('<?php echo $vo['id']; ?>', '0', '<?php echo $vo['admin_name']; ?>')" href="javascript:;">离职</a>
+					<?php else: ?>
+						<a class="rha-bt-a" onclick="disabledAdmin('<?php echo $vo['id']; ?>', '1', '<?php echo $vo['admin_name']; ?>')" href="javascript:;">在职</a>
+					<?php endif; ?>
+				<?php endif; ?>
+				<?php if(in_array(13, $role_operation_ids)): ?>
+					<!-- <a class="rha-bt-a" href="updateAdminPwd.html?id=<?php echo $vo['id']; ?>">编辑</a> -->
+					<a class="rha-bt-a" href="editmember.html?id=<?php echo $vo['id']; ?>">编辑</a>
+				<?php endif; ?>
+				<?php if(in_array(33, $role_operation_ids)): ?>
+					<!-- <a class="rha-bt-a" href="AssRole.html?id=<?php echo $vo['id']; ?>">设置权限</a> -->
+					<a class="rha-bt-d ajax-delete" href="delmember.html?id=<?php echo $vo['id']; ?>">删除</a>
+				<?php endif; ?>
+			<?php endif; ?>
+			</td>
+		</tr>
+		<?php endforeach; else: ?>
+		<tr>
+			<td colspan="8" style="text-align: center;">暂无记录</td>
+		</tr>
+		<?php endif; ?>
+		</tbody>
+	</table>
+	<?php if (!(empty($list))): ?>
+		<div style="text-align: left;"><?php echo $list->render(); ?></div>
+	<?php endif; ?>
+</div>
+<script>
+	$(document).on('mouseenter', '.look_smal', function(){
+		tip_index = '';
+		if($(this).next('.look_all').children('font').length >2){
+			tip_index=layer.tips($('.look_all').html(), '.look_smal', {
+		        tips: [4, '#666'],
+		        area: ['auto', 'auto'],
+		        time: 50000
+		    });
+		}
+	    
+	}).on('mouseleave', '.look_smal', function(){
+	    layer.close(tip_index);
+	});
+function disabledAdmin(id, status, beName) {
+	var txt = status == 1 ? '开启' : '禁用';
+	layui.use('layer', function(){
+		var layer = layui.layer;
+		layer.confirm('你确定需要'+ txt +'吗？', {
+			btn: ['是','不'] //按钮
+		}, function(){
+			$.post(
+				'disabledAdmin',
+				{'id':id, 'status':status, 'beName':beName},
+				function(obj){
+					if(obj.ret == 200){
+						layer.msg(obj.msg, {time: 1500}, function(){
+							window.location.reload();
+						});
+					}
+					else{
+						layer.msg(obj.msg, {time: 1500, anim: 6});
+					}
+				},
+				"json"
+			);
+		});
+	});
+}
+</script>

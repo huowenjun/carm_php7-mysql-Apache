@@ -1,0 +1,148 @@
+<div class="content-hd">
+	<fieldset class="layui-elem-field layui-field-title" >
+		<legend>{$pagetitle}</legend>
+	</fieldset>
+</div>
+<div class="rhaphp-srivice-register">
+	<form class="layui-form layui-form-pane" action="addSystem" lay-filter="example" method="post">
+		<div class="layui-form-item">
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color">*</i>标题</label>
+				<div class="layui-input-inline">
+					<input name="name" required="" lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input" type="text">
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color">*</i>KEYS</label>
+				<div class="layui-input-inline">
+					<input name="keys" required="" lay-verify="required" placeholder="请输入键名" autocomplete="off" class="layui-input" type="text" maxlength="50">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color">*</i>文本类型</label>
+				<div class="layui-input-inline">
+					<select name="type" id=""  lay-filter="select">
+						<option value="1">单文本</option>
+						<option value="6">多文本(逗号隔开)</option>
+						<option value="2">文本输入框</option>
+						<option value="3">单图片上传</option>
+						<option value="4">多图片上传</option>
+						<option value="5">编辑器</option>
+					</select>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color">*</i>VALUES</label>
+				<div class="layui-input-block" id="lay_form_tab">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color">*</i>备注</label>
+				<div class="layui-input-block">
+					<input name="memo" placeholder="备注" autocomplete="off" class="layui-textarea" type="text">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button class="layui-btn" type="button" lay-submit lay-filter="*">立即提交</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<div style="display: none" id="form_table">
+	<input name="values" required="" lay-verify="required"  placeholder="请输入" autocomplete="off" class="layui-input lay_form_input1" type="text" maxlength="100">
+	<textarea placeholder="请输入" name="values" required="" lay-verify="required"  autocomplete="off" maxlength="300" class="layui-textarea lay_form_input2"></textarea>
+	<div class="layui-upload lay_form_input3">
+		<input type="hidden" name="values" value="">
+		<button type="button" class="layui-btn layui-btn-primary" id="img" ><i class="layui-icon"></i>上传图片</button>
+		<small class="layui-word-aux">大小20M以下，后缀格式：jpg | png | jpeg</small>
+		<div class="layui-upload-list">
+			<img class="layui-upload-img" id="imgImg" style="max-width:260px; max-height:260px;">
+			<p id="imgText"></p>
+		</div>
+	</div>
+</div>
+<script>
+    layui.use(['form', 'upload'], function () {
+        var form = layui.form,
+		upload = layui.upload;
+		function upload_images_config(){
+			var upimageInst = upload.render({
+				elem: '#img' //指向容器选择器
+				,url: 'upImages' //服务端上传接口
+				,accept: 'images' //指定允许上传时校验的文件类型
+				,exts: 'jpg|png|jpeg' //允许上传的文件后缀
+				,field: 'file' //设定文件域的字段名
+				,size: 20 * 1024 * 1024 //设置文件最大可允许上传的大小，单位 KB
+				,multiple: false //是否允许多文件上传
+				,number: 1 //设置同时可上传的文件数量
+				,before: function(obj){
+					layer.load(2, {shade: [1, '#FFF']});
+				}
+				,done: function(res){
+					layer.closeAll();
+					<!-- 如果上传失败 -->
+					if(res.error > 0){
+						<!-- 演示失败状态，并实现重传 -->
+						var imgText = $('#imgText');
+						imgText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-mini demo-reload">重试</a>');
+						imgText.find('.demo-reload').on('click', function(){
+							upimageInst.upload();
+						});
+						return layer.msg(res.msg, {icon: 2, anim: 6});
+					}
+					<!-- 上传成功 -->
+					$('#lay_form_tab input[name="values"]').attr("value", res.url);
+					$('#imgImg').attr('src', res.url);
+					$('#imgText').html('');
+				}
+				,error: function(){
+					setTimeout(function(){layer.closeAll()}, 2000);
+					<!-- 演示失败状态，并实现重传 -->
+					var imgText = $('#imgText');
+					imgText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-mini demo-reload">重试</a>');
+					imgText.find('.demo-reload').on('click', function(){
+						upimageInst.upload();
+					});
+				}
+			});
+		}
+		function formswitch(num){
+			switch(num){
+				case '1':
+				case '6':
+					return $('#form_table .lay_form_input'+1).clone();
+					break;
+				case '2':
+					return $('#form_table .lay_form_input'+2).clone();
+					break;
+				case '3':
+					return $('#form_table .lay_form_input'+3).clone();
+					break;
+				case '4':
+					return $('#form_table .lay_form_input'+4).clone();
+					break;
+				case '5':
+					return $('#form_table .lay_form_input'+5).clone();
+					break;
+				default:
+					return $('#form_table .lay_form_input'+1).clone();
+					break;
+			}
+		}
+		var html = formswitch(1);
+		$("#lay_form_tab").html(html);
+		form.render('select');
+		form.on('select(select)', function(data){
+			var num = data.value;
+			var html = formswitch(num);
+			$("#lay_form_tab").html(html);
+			if(num == 3){
+				upload_images_config();
+			}
+			form.render('select');
+		});
+    });
+</script>

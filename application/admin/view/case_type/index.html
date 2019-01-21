@@ -1,0 +1,48 @@
+<div class="content-hd">
+	<fieldset class="layui-elem-field layui-field-title" >
+		<legend>{$pagetitle}</legend>
+		<?php if(in_array(31, $role_operation_ids)): ?>
+		<div style="text-align: left;">
+			<a href="addCaseType.html" class="layui-btn layui-btn-sm layui-btn-normal">增加</a>
+		</div>
+		<?php endif; ?>
+	</fieldset>
+</div>
+<div style="padding: 0px 10px 0px 10px;">
+	<table class="layui-table" >
+		<colgroup>
+			<col width="150">
+			<col width="400">
+			<col>
+		</colgroup>
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>类型名称</th>
+				<th>状态</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+		<?php if (!(empty($list->total()))): foreach ($list as $vo): ?>
+		<tr>
+			<td><?php echo $vo['id']; ?></td>
+			<td><?php echo $vo['name']; ?></td>
+			<td><?php echo $vo['status'] == 1 ? '启用' : '禁用'; ?></td>
+			<td>
+				<a class="rha-bt-a" href="upCaseType.html?id=<?php echo $vo['id']; ?>">修改</a>
+				<!--<a class="rha-bt-a" href="deCaseType.html?id=<?php echo $vo['id']; ?>">删除</a>-->
+				<a class="rha-bt-d ajax-delete" href="deCaseType.html?id=<?php echo $vo['id']; ?>">删除</a>
+			</td>
+		</tr>
+		<?php endforeach; else: ?>
+		<tr>
+			<td colspan="4">暂无记录</td>
+		</tr>
+		<?php endif; ?>
+		</tbody>
+	</table>
+	<?php if (!(empty($list))): ?>
+		<div style="text-align: left;"><?php echo $list->render(); ?></div>
+	<?php endif; ?>
+</div>

@@ -1,0 +1,136 @@
+<div class="content-hd">
+	<fieldset class="layui-elem-field layui-field-title" >
+		<legend>菜单列表</legend>
+		<?php if(in_array(5, $role_operation_ids)): ?>
+		<div style="text-align: left;">
+			<a href="system-addmenu.html" class="layui-btn layui-btn-sm layui-btn-normal">增加菜单</a>
+			
+			<a href="" class="layui-btn layui-btn-sm layui-btn-normal">Excel导入</a>
+		</div>
+		<?php endif; ?>
+	</fieldset>
+</div>
+
+<form class="layui-form" action="" style="padding: 0px 10px 0px 10px;">
+	<table class="layui-table">
+		<colgroup>
+			<col width="100">
+			<col width="500">
+			<col>
+		</colgroup>
+		<thead>
+			<tr>
+				<th>排序</th>
+				<th>菜单名称</th>
+				<th>地址</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+		<?php foreach($list as $v): ?>
+			<tr>
+				<td><input style="width: 35px; text-align:center" name="<?php echo $v['id']; ?>_<?php echo $v['sort']; ?>" value="<?php echo $v['sort']; ?>"></td>
+				<td><?php echo $v['name']; ?></td>
+				<td><?php echo $v['url']; ?></td>
+				<td>
+				<?php if(in_array(19, $role_operation_ids)): ?>
+					<a class="rha-bt-a" href="system-updateMenu.html?id=<?php echo $v['id']; ?>">修改</a>
+				<?php endif; ?>
+				<?php if(in_array(20, $role_operation_ids)): ?>
+					<a href="javascript:;" onclick="delMenu('<?php echo $v['id']; ?>', '<?php echo $v['name']; ?>')" class="rha-bt-a" >删除</a>
+				<?php endif; ?>
+				</td>
+			</tr>
+			<?php if(!(empty($v['child']))): if(is_array($v['child'])): $i = 0; foreach ($v['child'] as $v2): ++$i; ?>
+			<tr>
+				<td><input style="width: 35px; text-align:center" name="<?php echo $v2['id']; ?>_<?php echo $v2['sort']; ?>" value="<?php echo $v2['sort']; ?>"></td>
+				<td>&nbsp;&nbsp;&nbsp; ├<?php echo $v2['name']; ?></td>
+				<td><?php echo $v2['url']; ?></td>
+				<td>
+				<?php if(in_array(19, $role_operation_ids)): ?>
+					<a class="rha-bt-a" href="system-updateMenu.html?id=<?php echo $v2['id']; ?>">修改</a>
+				<?php endif; ?>
+				<?php if(in_array(20, $role_operation_ids)): ?>
+					<a href="javascript:;" onclick="delMenu('<?php echo $v2['id']; ?>', '<?php echo $v['name']; ?>')" class="rha-bt-a" >删除</a>
+				<?php endif; ?>
+				</td>
+			</tr>
+			<?php if(!(empty($v2['child']))): if(is_array($v2['child'])): $ii = 0; foreach ($v2['child'] as $v3): ++$ii; ?>
+			<tr>
+				<td><input style="width: 35px; text-align:center" name="<?php echo $v3['id']; ?>_<?php echo $v3['sort']; ?>" value="<?php echo $v3['sort']; ?>"></td>
+				<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  ├<?php echo $v3['name']; ?></td>
+				<td><?php echo $v3['url']; ?></td>
+				<td>
+				<?php if(in_array(19, $role_operation_ids)): ?>
+					<a class="rha-bt-a" href="system-updateMenu.html?id=<?php echo $v3['id']; ?>">修改</a>
+				<?php endif; ?>
+				<?php if(in_array(20, $role_operation_ids)): ?>
+					<a href="javascript:;" onclick="delMenu('<?php echo $v3['id']; ?>', '<?php echo $v['name']; ?>')" class="rha-bt-a" >删除</a>
+				<?php endif; ?>
+				</td>
+			</tr>
+			<?php if(!(empty($v3['child']))): if(is_array($v3['child'])): $iii = 0; foreach ($v3['child'] as $v4): ++$iii; ?>
+			<tr>
+				<td><input style="width: 35px; text-align:center" name="<?php echo $v4['id']; ?>_<?php echo $v4['sort']; ?>" value="<?php echo $v4['sort']; ?>"></td>
+				<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  ├<?php echo $v4['name']; ?></td>
+				<td><?php echo $v4['url']; ?></td>
+				<td>
+				<?php if(in_array(19, $role_operation_ids)): ?>
+					<a class="rha-bt-a" href="system-updateMenu.html?id=<?php echo $v4['id']; ?>">修改</a>
+				<?php endif; ?>
+				<?php if(in_array(20, $role_operation_ids)): ?>
+					<a href="javascript:;" onclick="delMenu('<?php echo $v4['id']; ?>', '<?php echo $v['name']; ?>')" class="rha-bt-a" >删除</a>
+				<?php endif; ?>
+				</td>
+			</tr>
+		<?php endforeach; endif; endif; endforeach; endif; endif; endforeach; endif; endif; endforeach; ?>
+		</tbody>
+	</table>
+	<?php if($admin_info['id'] == 1): ?>
+		<div class="layui-form-item">
+			<button class="layui-btn layui-btn-sm" lay-submit lay-filter="updateSort">更新排序</button>
+		</div>
+	<?php else: ?>
+		<?php if(in_array(22, $role_operation_ids)): ?>
+		<div class="layui-form-item">
+			<button class="layui-btn layui-btn-sm" lay-submit lay-filter="updateSort">更新排序</button>
+		</div>
+		<?php endif; ?>
+	<?php endif; ?>
+</form>
+<script>
+layui.use('form', function(){
+    var form = layui.form;
+	form.on('submit(updateSort)', function (data) {
+		$.post(
+			"system-updateSort",
+			data.field,
+			function (obj) {
+				layer.msg(obj.msg, {time: 1500});
+			},
+			"json"
+		);
+		return false;
+	});
+});
+function delMenu(pkid, beName)
+{
+	layui.use('layer', function(){
+		var layer = layui.layer;
+		layer.confirm('你确定要删除吗？', {
+			btn: ['是','不'] //按钮
+		}, function(){
+			$.post(
+				'system-deleteMenu',
+				{'pkid':pkid, 'beName':beName},
+				function(obj){
+					layer.msg(obj.msg, {time: 1500}, function(){
+						window.location.reload();
+					});
+				},
+				"json"
+			);
+		});
+	});
+}
+</script>

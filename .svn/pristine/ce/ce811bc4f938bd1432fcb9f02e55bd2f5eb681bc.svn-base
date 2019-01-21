@@ -1,0 +1,72 @@
+<?php
+namespace token;
+
+use think\Db;
+use think\Log;
+class App
+{
+	private static $PastTime;
+	//true：一个账号只允许一个终端登录，删除前一次token
+	private static $one_login = true;
+
+	public function __construct()
+	{
+		self::$PastTime = 3600*24*3;
+	}
+	
+	private static function mysql_uuid()
+	{
+		return md5(uniqid(mt_rand(), true));
+	}
+    // admin
+    public static function get_access_token($adminid)
+    {
+        if(self::$one_login){
+            $last_token = cache('last_login_user_token'.$adminid);
+            cache($last_token, null);
+        }
+        $data["token"] = self::mysql_uuid();
+        cache($data['token'], $adminid, self::$PastTime);
+        if(self::$one_login){
+            cache('last_login_user_token'.$adminid, $data["token"], self::$PastTime);
+        }
+        // Log::info('access_token:'.json_encode($data));
+        return $data["token"];
+    }
+	// api 
+    public static function get_api_access_token($adminid)
+    {
+        if(self::$one_login){
+            $last_token = cache('last_api_login_user_token'.$adminid);
+            cache($last_token, null);
+        }
+        $data["token"] = self::mysql_uuid();
+        cache($data['token'], $adminid, self::$PastTime);
+        if(self::$one_login){
+            cache('last_api_login_user_token'.$adminid, $data["token"], self::$PastTime);
+        }
+        return $data["token"];
+    }
+    public static function get_islogin($access_token = false)
+	{
+		if($access_token == ""){
+            return false;
+        }
+		$token = cache($access_token);
+		return $token ? true : false;
+    }
+
+	public static function get_system_id($access_token = false)
+    {
+        if($access_token == ""){
+            return false;
+        }
+        $uid = cache($access_token);
+        if($uid){
+			return $uid;
+        }
+		else{
+			return false;
+		}
+    }
+}

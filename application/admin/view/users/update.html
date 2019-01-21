@@ -1,0 +1,226 @@
+<div class="content-hd">
+	<fieldset class="layui-elem-field layui-field-title" >
+		<legend>{$pagetitle}</legend>
+	</fieldset>
+</div>
+<div class="rhaphp-srivice-register">
+	<form class="layui-form layui-form-pane" action="/editmember" lay-filter="example" method="post">
+	<input type="hidden" name="id" value="<?php echo $list['id']; ?>">
+	<input type="hidden" name="beName" value="<?php echo $list['admin_name']; ?>">
+		<div class="layui-form-item">
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color">*</i>店铺名称</label>
+				<div class="layui-input-inline">
+					<input name="shop_name" required="" lay-verify="required|max:20" placeholder="请输入店铺名称" maxlength="20" autocomplete="off" class="layui-input" type="text">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color">*</i>负责人</label>
+				<div class="layui-input-inline">
+					<input name="user_name" required="" lay-verify="required|max:20" placeholder="请输入负责人" maxlength="20" autocomplete="off" class="layui-input" type="text">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color">*</i>登录账号</label>
+				<div class="layui-input-inline">
+					<input name="login_account" required="" lay-verify="required|unique:users|min:8" placeholder="请输入登录账号" autocomplete="off" class="layui-input" type="text">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color">*</i>密码</label>
+				<div class="layui-input-inline">
+					<input name="password" required="" lay-verify="required|pass" placeholder="请输入密码" autocomplete="off"  class="layui-input" type="password" onpaste="return false" oncontextmenu="return false" oncopy="return false" oncut="return false">
+				</div>
+				<div class="layui-form-mid layui-word-aux">非汉字 最少8位</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color">*</i>重复密码</label>
+				<div class="layui-input-inline">
+					<input name="repassword" required="" lay-verify="required|pass" placeholder="请输入密码" autocomplete="off" class="layui-input" type="password" onpaste="return false" oncontextmenu="return false" oncopy="return false" oncut="return false">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color">*</i>联系电话</label>
+				<div class="layui-input-inline">
+					<input name="user_tel" required="" lay-verify="required|phone" maxlength="11" placeholder="请输入联系电话" autocomplete="off" class="layui-input" type="text">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">会员级别</label>
+				<div class="layui-input-inline">
+				<select name="level" lay-search>
+					<option value="0">请选择</option>
+					<option value="1" <?php if(input('level') == 1){echo 'selected';}?>>普通会员</option>
+					<option value="5" <?php if(input('level') == 5){echo 'selected';}?>>调度会员</option>
+					<option value="10" <?php if(input('level') == 10){echo 'selected';}?>>充值会员</option>
+				</select>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color">*</i>所在城市</label>
+				<div class="layui-input-inline">
+					<select name="room_city" required="" lay-verify="required">
+						{volist name="city_list" id="ct"}
+							<option value="{$ct.id}">{$ct.text}</option>
+						{/volist}
+					</select>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color">*</i>归属市场</label>
+				<div class="layui-input-inline">
+					<select name="market" required="" lay-verify="required">
+						{volist name="market_list" id="mk"}
+							<option value="{$mk.id}">{$mk.text}</option>
+						{/volist}
+					</select>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color">*</i>地址</label>
+				<div class="layui-input-inline">
+					<input name="address" required="" lay-verify="required" placeholder="请输入地址" autocomplete="off" class="layui-input" type="text">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color"></i>开通时间</label>
+				<div class="layui-input-inline">
+					<input name="start_time" id="beginTime" placeholder="请输入开始时间" autocomplete="off" class="layui-input" type="text">
+				</div>
+				<label class="layui-rand-time"><i class="required-color">-</i></label>
+				<div class="layui-input-inline">
+					<input name="end_time" id="endTime" placeholder="请输入结束时间" autocomplete="off" class="layui-input" type="text">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color"></i>储值金额</label>
+				<div class="layui-input-inline">
+					<input name="money" id="money" placeholder="储值金额(未选开通时间非必填，反之必填)" autocomplete="off" class="layui-input" type="text">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color">*</i>资质图片</label>
+				<div class="layui-upload-drag" id="up_img">
+					<input type="hidden" name="img" lay-verify="imgs">
+					<img src="" style="display: none;background: #ddd" alt="">
+					<i class="layui-icon"></i>
+					<p>点击上传，或将文件拖拽到此处</p>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">门头照片</label>
+				<div class="layui-upload-drag" id="up_img2">
+					<input type="hidden" name="photo">
+					<img src="" style="display: none" alt="">
+					<i class="layui-icon"></i>
+					<p>点击上传，或将文件拖拽到此处</p>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button class="layui-btn" lay-submit="" lay-filter="*">确认更改</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<div id="position2" style="display: none;" class="layui-form layui-form-item">
+	<div  style="margin-left: 110px" class="zhineng">
+		<div class="layui-inline" style="width:350px">
+	        <input type="text" autocomplete="on" class="layui-input"  name="city-picker[]" readonly="readonly" data-toggle="" placeholder="请选择省市">
+	        <input type="hidden" name="admonrole_id[]" value="">
+		</div>
+		<div class="layui-inline">
+			<select name="position_id[]">
+				<option value="">请选择</option>
+				{volist name="position_list" id="us"}
+					<option value="{$us.id}">{$us.name}</option>
+				{/volist}
+			</select>
+		</div>
+		<button type="button" class="layui-btn layui-btn-sm layui-btn-danger" onclick="delete_position(this)"><i class="layui-icon"></i></button>
+	</div>
+</div>
+<script>
+    $('#beginTime,#endTime').blur(function(){
+        	var stime = $("#beginTime").val();
+        	var etime = $("#endTime").val();
+        	if(stime || etime){
+        		$("#money").attr({"required":'required',"lay-verify":"required|number"})
+        	}else{
+				$("#money").removeAttr('required').removeAttr('lay-verify');
+        	}
+        })
+        function is_set_tiem(){
+        	var stime = $("#beginTime").val();
+        	var etime = $("#endTime").val();
+        	if(stime || etime){
+        		$("#money").attr({"required":'required',"lay-verify":"required|number"})
+        	}else{
+				$("#money").removeAttr('required').removeAttr('lay-verify');
+        	}
+        }
+	layui.use(['laydate','form'],function(){
+		laydate = layui.laydate;
+		form = layui.form;
+
+	//开始时间时间
+	var start = laydate.render({
+		elem: '#beginTime',
+		min: '1900-1-1 00:00:00',
+	    max: '2099-6-16 23:59:59',
+	    trigger: 'click', //采用click弹出
+	    done: function(value, date, endDate){
+	      end.config.min = {
+			year: date.year,
+			month: date.month - 1,
+			date: date.date,
+			hours: date.hours,
+			minutes: date.minutes,
+			seconds: date.seconds
+	      }; //开始日选好后，重置结束日的最小日期
+	      end.config.value = {
+			year: date.year,
+			month: date.month - 1,
+			date: date.date,
+			hours: date.hours,
+			minutes: date.minutes,
+			seconds: date.seconds
+		 }; //将结束日的初始值设定为开始日
+		 is_set_tiem();
+	   }
+	});
+	
+	//结束时间
+	var end = laydate.render({
+		elem: '#endTime',
+	    min: '1900-1-1 00:00:00',
+	    max: '2099-6-16 23:59:59',
+	    trigger: 'click', //采用click弹出
+	    done: function(value, date, endDate){
+	      start.config.max = {
+			year: date.year,
+			month: date.month - 1,
+			date: date.date,
+			hours: date.hours,
+			minutes: date.minutes,
+			seconds: date.seconds
+	      }; //结束日选好后，重置开始日的最大日期
+		 is_set_tiem();
+
+	    }
+	});
+
+	form.verify({
+	    imgs: function(value){
+	      if(!value){
+	        return '资质图片必须上传';
+	      }
+	    }
+	    ,pass: [
+	      /^[A-Za-z0-9]{8,}/
+	      ,'密码最少设置8位，且不能出现空格'
+	    ]
+	  });
+})
+</script>

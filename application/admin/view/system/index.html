@@ -1,0 +1,77 @@
+<div class="content-hd">
+	<fieldset class="layui-elem-field layui-field-title" >
+		<legend>{$pagetitle}</legend>
+		<?php if(in_array(27, $role_operation_ids)): ?>
+		<div style="text-align: left;">
+			<a href="addSystem.html" class="layui-btn layui-btn-sm layui-btn-normal">添加系统设置</a>
+		</div>
+		<?php endif; ?>
+	</fieldset>
+</div>
+<div style="padding: 0px 10px 0px 10px;">
+	<table class="layui-table" >
+		<colgroup>
+			<col width="60">
+			<col width="120">
+			<col width="100">
+			<col width="120">
+			<col width="150">
+			<col width="150">
+			<col>
+		</colgroup>
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>标题</th>
+				<th>键名</th>
+				<th>键值</th>
+				<th>创建时间</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+		<?php if (!(empty($list->total()))): foreach ($list as $vo): ?>
+		<tr>
+			<td><?php echo $vo['id']; ?></td>
+			<td><?php echo $vo['name']; ?></td>
+			<td><?php echo $vo['keys']; ?></td>
+			<td><?php if($vo['type'] == '3'): ?><img style="max-height: 80px;max-width: 80px;" src="<?php echo $vo['values']; ?>"><?php else: ?><?php echo string_cut_nohtml($vo['values'],50); endif; ?></td>
+			<td><?php echo $vo['ctime']?></td>
+			<td>
+				<a class="rha-bt-a" href="upSystem.html?id=<?php echo $vo['id']; ?>">修改</a>
+				<!--<a href="javascript:;" onclick="Del('<?php echo $vo['id']; ?>', '<?php echo $vo['name']; ?>')" class="rha-bt-a" >删除</a>-->
+			</td>
+		</tr>
+		<?php endforeach; else: ?>
+		<tr>
+			<td colspan="8">暂无记录</td>
+		</tr>
+		<?php endif; ?>
+		</tbody>
+	</table>
+	<?php if (!(empty($list))): ?>
+		<div style="text-align: left;"><?php echo $list->render(); ?></div>
+	<?php endif; ?>
+</div>
+<script>
+//function Del(pkid, beName)
+//{
+//	layui.use('layer', function(){
+//		var layer = layui.layer;
+//		layer.confirm('你确定要删除吗？', {
+//			btn: ['是','不'] //按钮
+//		}, function(){
+//			$.post(
+//				'delSystem',
+//				{'pkid':pkid, 'beName':beName},
+//				function(obj){
+//					layer.msg(obj.msg, {time: 1500}, function(){
+//						window.location.reload();
+//					});
+//				},
+//				"json"
+//			);
+//		});
+//	});
+//}
+</script>

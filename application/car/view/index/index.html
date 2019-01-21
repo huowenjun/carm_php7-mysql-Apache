@@ -1,0 +1,475 @@
+{include file="public/head"}
+<body style="background:rgba(0,0,0,0.9);">
+<!--pc头部开始-->
+<section class="header hidden-xs">
+    <span class="logo"><img src="__STATIC__/index/images/logo.png"></span>
+    <ul id="lis">
+        <li class="nav active">
+            <p class="cha"><a href="index.html">首　页</a></p>
+            <p class="eng"><a href="index.html">HOME</a></p>
+        </li>
+        <li class="nav">
+            <p class="cha"><a href="fuwu.html">服　务</a></p>
+            <p class="eng"><a href="fuwu.html">SERVICE</a></p>
+        </li>
+        <li class="nav">
+            <p class="cha"><a href="case.html">案　例</a></p>
+            <p  class="eng" ><a href="case.html">CASE</a></p>
+        </li>
+        <li class="nav">
+            <p class="cha"><a href="about.html">关　于</a></p>
+            <p class="eng"><a href="about.html">ABOUT</a></p>
+        </li>
+        <li class="nav">
+            <p class="cha"><a href="news.html">新　闻</a></p>
+            <p class="eng"><a href="news.html">NEWS</a></p>
+        </li>
+        <li class="nav">
+            <p class="cha"><a href="lxwm.html">联　系</a></p>
+            <p class="eng"><a href="lxwm.html">CONTACT</a></p>
+        </li>
+    </ul>
+    <div class="index_xuanfu">
+        <ul>
+            <li><a href="javascript:void(0)"><i class="icon iconfont icon-qq"></i></a>
+              <div class="small_info">
+                    <label>在线咨询</label>
+                  <span><a title="点击这里给我发消息" href="http://wpa.qq.com/msgrd?v=3&amp;uin=3187089557&amp;site=www.cactussoft.cn&amp;menu=yes" target="_blank"></a>
+				  </span>
+                  <span><a title="点击这里给我发消息" href="http://wpa.qq.com/msgrd?v=3&amp;uin=3129424332&amp;site=www.cactussoft.cn&amp;menu=yes" target="_blank"></a></span>
+                </div>
+            </li>			
+            <li><a href="javascript:void(0);"><i class="icon iconfont icon-weixin2"></i></a>
+                <div class="small_info small_info2">
+                    <label>微信公众号</label>
+                    <span><img src="__STATIC__/index/images/ewm.jpg" width="130" /></span>
+                    <span>扫一扫，加关注</span>
+                </div>
+            </li>
+            <li><a href="javascript:void(0);"><i class="icon iconfont icon-shouji1"></i></a>
+                <div class="small_info small_info2">
+                    <label>微信小程序</label>
+                    <span><img src="__STATIC__/index/images/xchx.png" width="130" /></span>
+                    <span>扫一扫，关注我们</span>
+                </div>
+            </li>
+            <li><a href="javascript:void(0);"><i class="icon iconfont icon-dianhua2"></i></a>
+                <div class="small_info small_info2">
+                    <label>服务热线</label>
+                    <b>010-87653002</b>
+                </div>
+            </li>
+            <li id="goToTop"><a href="javascript:void();"><i class="icon iconfont icon-een"></i></a></li>
+            <script type="text/javascript">
+                $("#goToTop").click(function(){
+                     $('html,body').animate({'scrollTop':0},600); //滚回顶部的时间，越小滚的速度越快~
+                 })
+            </script>
+        </ul>
+    </div>
+</section>
+<!--pc头部结束-->
+<!--mobile头部开始-->
+    <section class="mobile_header visible-xs">
+        <div class="mo_left">
+            <img src="__STATIC__/index/images/logo.png" class="mo_heimg">
+        </div>
+        <i class="icon iconfont icon-daohang"></i>
+    </section>
+    <div class="mobile_nav">
+	 	<div class="m_nav">
+			<li class="nav active">
+	            <p class="cha"><a href="index.html">首　页</a></p>
+	            <p class="eng"><a href="index.html">HOME</a></p>
+	        </li>
+	        <li class="nav">
+	            <p class="cha"><a href="fuwu.html">服　务</a></p>
+	            <p class="eng"><a href="fuwu.html">SERVICE</a></p>
+	        </li>
+	        <li class="nav">
+	            <p class="cha"><a href="case.html">案　例</a></p>
+	            <p  class="eng" ><a href="case.html">CASE</a></p>
+	        </li>
+	        <li class="nav">
+	            <p class="cha"><a href="about.html">关　于</a></p>
+	            <p class="eng"><a href="about.html">ABOUT</a></p>
+	        </li>
+	        <li class="nav">
+	            <p class="cha"><a href="news.html">新　闻</a></p>
+	            <p class="eng"><a href="news.html">NEWS</a></p>
+	        </li>
+	        <li class="nav">
+	            <p class="cha"><a href="lxwm.html">联　系</a></p>
+	            <p class="eng"><a href="lxwm.html">CONTACT</a></p>
+	        </li>
+		</div>
+	 </div>
+	<script type="text/javascript">
+    	$(function(){
+    		$(".icon-daohang").click(function(){
+    			$(".mobile_nav").css("display","block");
+    			$(".mobile_nav").animate({left:'0'},"slow");
+    		});
+    		$('.mobile_nav').bind('click',function(e){
+	    		$(".mobile_nav").animate({left:'105%'},"slow");
+	    	});
+//	    	$('.nav_cont').bindtap('click',function(e){
+//	    		event.stopPropagation();
+//	    	})
+    	})
+    	
+    </script>
+
+<!--mobile头部结束-->
+<!--轮播开始-->
+<section class="banner">
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <div class="swiper_cont">
+                    <img src="__STATIC__/index/images/bann1.png" class="big_index_img1">
+                    <img src="__STATIC__/index/images/sanjiao1.png" class="san_one">
+                    <h1 class="banner_font">
+						 开创优质视觉及研发服务
+					     <p class="banner_font1">CREATE A HIGH QUALITY VISUAL AND R&D SERVICES</p>
+					</h1>
+                    <img src="__STATIC__/index/images/sanjiao2.png" class="san_two">
+                    <img src="__STATIC__/index/images/indexban1.png" class="san_three">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var swiper = new Swiper('.swiper-container', {
+            spaceBetween: 30,
+            centeredSlides: true,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev'
+            }
+        });
+    </script>
+    <p class="shubiao"><img src="__STATIC__/index/images/shubiao.png" class="rightan shubiao1">
+        <img src="__STATIC__/index/images/jiantou2.png" class="rightan">
+        <img src="__STATIC__/index/images/jiantou2.png" class="rightan righttan1">
+        <img src="__STATIC__/index/images/jiantou2.png" class="rightan righttan2">
+    </p>
+</section>
+<div class="row">
+    <section class="services">
+        <div class="services_list">
+            <dl class="col-md-4 col-xs-12">
+                <dt><span class="counter">9</span><small>+</small></dt>
+                <dd>专注高品质互联网服务</dd>
+                <dd><small>2010年公司成立于北京</small></dd>
+            </dl>
+            <dl class="col-md-4 col-xs-12">
+                <dt><span class="counter">5000</span><small>+</small></dt>
+                <dd>成功服务明创品牌客户</dd>
+                <dd><small>上万家客户见证明创服务</small></dd>
+            </dl>
+            <dl class="col-md-4 col-xs-12">
+                <dt><span class="counter">30</span><small>+</small></dt>
+                <dd>技术大牛</dd>
+                <dd><small>激情创造 共同成长</small></dd>
+            </dl>
+        </div>
+    </section>
+    <section class= "our_service">
+          <div id="service">
+			  <img src="__STATIC__/index/images/service.png" width="1920" height="135" alt=""/>
+				<ul class="service_list">
+				  <li><img src="__STATIC__/index/images/service_one.png" class="big_img_ding">
+                    <span class="zhezhao_an"></span>
+                    <div class="shouye_xiaoguo">
+                        <img src="__STATIC__/index/images/yingyong_icon.png" class="gaoduan_icon"><br>
+                        <i class="icon iconfont icon-line"></i>
+                        <h2 class="title_ding1">应用解决方案</h2>
+                    </div>
+                    <dl class="personal_ding"><a href="zhuanti.html">
+                        <dd>
+                            <div class="ding_cont">
+                                <span><i class="icon iconfont icon-shouji"></i>APP定制开发</span>
+                                <span><i class="icon iconfont icon-xiaochengxu"></i>小程序开发</span>
+                                <span><i class="icon iconfont icon-weixin"></i>微信开发</span>
+                                <span><i class="icon iconfont icon-dingding"></i>钉钉开发</span>
+                            </div>
+                        </dd>
+                    </a></dl>
+                <li><img src="__STATIC__/index/images/service_two.png" class="big_img_ding">
+                    <span class="zhezhao_an"></span>
+                    <div class="shouye_xiaoguo">
+                        <img src="__STATIC__/index/images/gaoduan_icon.png" class="gaoduan_icon"><br>
+                        <i class="icon iconfont icon-line"></i>
+                        <h2 class="title_ding1">高端网站定制</h2>     
+                    </div>
+                    <dl class="personal_ding"><a href="zhuanti.html">
+                        <dd>
+                            <div class="ding_cont">
+                                <span><i class="icon iconfont icon-guanwang"></i>品牌官网</span>
+                                <span><i class="icon iconfont icon-wangzhan"></i>集团站群</span>
+                                <span><i class="icon iconfont icon-yingxiao"></i>营销型网站</span>
+                                <span><i class="icon iconfont icon-buju"></i>响应式网站</span>
+                                <span><i class="icon iconfont icon-shouji1"></i>手机端网站</span>
+                                <span><i class="icon iconfont icon-gouwuche"></i>电子商务网站</span>
+                            </div>
+                        </dd></a>
+                    </dl>
+                <li><img src="__STATIC__/index/images/service_three.png" class="big_img_ding">
+                    <span class="zhezhao_an"></span>
+                    <div class="shouye_xiaoguo">
+                        <img src="__STATIC__/index/images/xitong_icon.png" class="gaoduan_icon"><br>
+                        <i class="icon iconfont icon-line"></i>
+                        <h2 class="title_ding1">系统解决方案</h2>
+                    </div>  
+                    <dl class="personal_ding"><a href="zhuanti.html">
+                        <dd>
+                            <div class="ding_cont">
+                                <span><i class="icon iconfont icon-shuju"></i>大数据平台</span>
+                                <span><i class="icon iconfont icon-OA"></i>OA系统开发</span>
+                                <span><i class="icon iconfont icon-CRM"></i>CRM系统开发</span>
+                                <span><i class="icon iconfont icon-ERP"></i>ERP系统开发</span>
+                                <span><i class="icon iconfont icon-gongdanB"></i>工单系统</span>
+                            </div>
+                        </dd></a>
+                    </dl>   
+						
+                <li><img src="__STATIC__/index/images/service_four.png" class="big_img_ding">
+                    <span class="zhezhao_an"></span>
+                    <div class="shouye_xiaoguo">
+                        <img src="__STATIC__/index/images/pinpai_icon.png" class="gaoduan_icon"><br>
+                        <i class="icon iconfont icon-line"></i>
+                        <h2 class="title_ding1" style="left: 35%">品牌策划</h2>
+                    </div>
+                    <dl class="personal_ding"><a href="zhuanti.html">
+                        <dd>
+                            <div class="ding_cont">
+                                <span><i class="icon iconfont icon-r"></i>LOGO设计</span>
+                                <span><i class="icon iconfont icon-huangguan"></i>VI设计</span>
+                                <span><i class="icon iconfont icon-animal"></i>吉祥物设计</span>
+                                <span><i class="icon iconfont icon-baozhuang"></i>包装设计</span>
+                                <span><i class="icon iconfont icon-daohang-"></i>环境/导视设计</span>
+                                <span><i class="icon iconfont icon-huacesheji"></i>画册设计</span>
+                            </div>
+                        </dd></a>
+                    </dl>
+                </li>
+            </ul>
+		  </div>
+          <script>
+            var swiper = new Swiper('.swiper-container');
+          </script>
+    </section>
+    <section class="case_big_box">
+        <div class="case_box">
+			<ul class="case_list">
+        		<li><a href="#">品牌策划</a>/</li>
+                <li><a href="#">LOGO设计</a>/</li>
+                <li><a href="#">VI设计</a>/</li>
+                <li><a href="#">包装设计</a>/</li>
+                <li><a href="#">画册设计</a></li>
+                <li><a href="#">网站设计</a>/</li>
+                <li><a href="#">APP开发</a>/</li>
+                <li><a href="#">微信开发</a>/</li>
+                <li><a href="#">小程序</a>/</li>
+                <li><a href="#">系统开发</a></li>
+          </ul>
+      </div>
+        <div class="huanyipi">换一换<img src="__STATIC__/index/images/righrjian.png"></div>
+    </section>
+</div>
+<section class="case_show">
+    <ul class="case_show_list">
+        <li><a href="#"><img src="__STATIC__/index/images/case1_1.png">
+            <div class="case_logo_cont">
+                <img src="__STATIC__/index/images/case_logo1.png" class="animated">
+                <span class="animated">LOGO设计</span>
+            </div></a>
+        </li>
+        <li><a href="#"><img src="__STATIC__/index/images/case1_2.png">
+            <div class="case_logo_cont">
+                <img src="__STATIC__/index/images/case_logo2.png" class="animated">
+                <span class="animated">品牌全案</span>
+            </div></a>
+        </li>
+        <li><a href="#"><img src="__STATIC__/index/images/case1_3.png"></a>
+            <div class="case_logo_cont">
+                <img src="__STATIC__/index/images/case_logo3.png" class="animated">
+                <span class="animated">LOGO设计</span>
+            </div>
+        </li>
+        <li><a href="#"><img src="__STATIC__/index/images/case1_4.png">
+            <div class="case_logo_cont">
+                <img src="__STATIC__/index/images/case_logo4.png" class="animated">
+                <span class="animated">电商设计与开发</span>
+            </div></a>
+        </li>
+        <li><a href="#"><img src="__STATIC__/index/images/case1_5.png">
+            <div class="case_logo_cont">
+                <img src="__STATIC__/index/images/case_logo5.png" class="animated">
+                <span class="animated">网站设计与开发</span>
+            </div></a>
+        </li>
+        <li><a href="#"><img src="__STATIC__/index/images/case1_6.png">
+            <div class="case_logo_cont">
+                <img src="__STATIC__/index/images/case_logo6.png" class="animated">
+                <span class="animated">爱尔目智能摄像机官网设计与开发</span>
+            </div></a>
+        </li>
+        <li><a href="#"><img src="__STATIC__/index/images/case1_7.png">
+            <div class="case_logo_cont">
+                <img src="__STATIC__/index/images/case_logo7.png" class="animated">
+                <span class="animated">网站、APP设计与开发</span>
+            </div></a>
+        </li>
+        <li><a href="#"><img src="__STATIC__/index/images/case1_8.png"></a>
+            <div class="case_logo_cont">
+                <img src="__STATIC__/index/images/case_logo8.png" class="animated">
+                <span class="animated">微信小程序开发</span>
+            </div>
+        </li>
+        <li><a href="#"><img src="__STATIC__/index/images/case1_9.png">
+            <div class="case_logo_cont">
+                <img src="__STATIC__/index/images/case_logo9.png" class="animated">
+                <span class="animated">软件系统开发</span>
+            </div></a>
+        </li>
+    </ul>
+    <ul class="case_show_list">
+        <li><a href="#"><img src="__STATIC__/index/images/case1_10.png">
+            <div class="case_logo_cont">
+                <img src="__STATIC__/index/images/case_logo10.png" class="animated">
+                <span class="animated">APP设计与开发</span>
+            </div></a>
+        </li>
+        <li><a href="#"><img src="__STATIC__/index/images/case1_11.png">
+            <div class="case_logo_cont">
+                <img src="__STATIC__/index/images/case_logo11.png" class="animated">
+                <span class="animated">APP设计与开发</span>
+            </div></a>
+        </li>
+        <li><a href="#"><img src="__STATIC__/index/images/case1_12.png">
+            <div class="case_logo_cont">
+                <img src="__STATIC__/index/images/case_logo12.png" class="animated">
+                <span class="animated">小程序开发</span>
+            </div></a>
+        </li>
+        <li><a href="#"><img src="__STATIC__/index/images/case1_13.png">
+            <div class="case_logo_cont">
+                <img src="__STATIC__/index/images/case_logo13.png" class="animated">
+                <span class="animated">PC端官网定制</span>
+            </div></a>
+        </li>
+        <li><a href="#"><img src="__STATIC__/index/images/case1_14.png">
+            <div class="case_logo_cont">
+                <img src="__STATIC__/index/images/case_logo14.png" class="animated">
+                <span class="animated">APP设计与开发</span>
+            </div></a>
+        </li>
+        <li><a href="#"><img src="__STATIC__/index/images/case1_15.png">
+            <div class="case_logo_cont">
+                <img src="__STATIC__/index/images/case_logo15.png" class="animated">
+                <span class="animated">微信公众号开发</span>
+            </div></a>
+        </li>
+        <li><a href="#"><img src="__STATIC__/index/images/case1_16.png">
+            <div class="case_logo_cont">
+                <img src="__STATIC__/index/images/case_logo16.png" class="animated">
+                <span class="animated">PC铁粉论坛开发</span>
+            </div></a>
+        </li>
+        <li><a href="#"><img src="__STATIC__/index/images/case1_17.png">
+            <div class="case_logo_cont">
+                <img src="__STATIC__/index/images/case_logo17.png" class="animated">
+                <span class="animated">PC端企业网站定制</span>
+            </div></a>
+        </li>
+        <li><a href="#"><img src="__STATIC__/index/images/case1_18.png">
+            <div class="case_logo_cont">
+                <img src="__STATIC__/index/images/case_logo18.png" class="animated">
+                <span class="animated">APP设计与开发</span>
+            </div></a>
+        </li>
+    </ul>
+</section>
+<section class="about_box">
+    <img src="__STATIC__/index/images/aboutbg.png" class="about_img">
+     <script type="text/javascript">
+             $(window).bind('scroll',function(){
+                //算出鼠标移动到顶部的高度。
+                // var scrollt = document.documentElement.scrollTop + document.body.scrollTop;
+                  
+                   if($('.about_box').position().top - $(window).scrollTop() < 300)
+                   {
+                    $('.about_cont').css('opacity','1');
+                    $('.about_cont img').addClass("about_contimg");
+                    $('.xx_cont').addClass("about_contimgs");
+                     $('.xx_conts').addClass("about_contimges");
+                   }else{
+                    $('.about_cont img').removeClass("about_contimg");
+                    $('.xx_cont').removeClass("about_contimgs");
+                     $('.xx_conts').removeClass("about_contimges");
+                    $('.about_cont').css('opacity','0');
+                   }
+                })
+        </script>
+    <div class="about_cont">
+        <img src="__STATIC__/index/images/about1.png">
+        <span class="xx_cont">北京明创科技是一家高速成长的互联网品牌公司，主要从事品牌策划与设计、高端网站定制、应用解决方案、系统解决方案四大版块业务，致力于让互联网+更简单，让企业品牌更具影响力，协助企业赢取信息化时代的红利，为企业的成长注入新的活力。</span>
+        <span class="xx_conts">公司成立以来，服务过众多著名企业机构与政府机关，包括中国石油、中国铁建、中国出版集团、海尔、TCL、京东、百度、神州控股、国家知识产权局、中国气象等。涉及行业范围有政府、金融、地产、科技、教育与培训、制药与医疗、建材、交通、食品、IT与通讯网络等。</span>
+    </div>
+</section>
+
+<div class="row">
+    <section class="new_box">
+        <div class="col-md-8 new_lefts">
+            <img src="__STATIC__/index/images/new1.png" class="new_img1">
+            <div class="col-md-8 new_left1">
+                <h4 class="new_tit">2017-10-24</h4>
+                <h3 class="new_tit2">网站内容更新应以原创<br>创造价值内容为主</h3>
+                <a href="#" class="look_xq">—查看详情</a>
+            </div>
+            <div class="col-md-4 new_box2">
+                <div class="new_left2">
+                    <h4 class="new_tit">2017-10-24</h4>
+                    <h3 class="new_tit2">网站内容更新应以原创<br>创造价值内容为主</h3>
+                    <a href="#" class="look_xq">—查看详情</a>
+                </div>
+                <div class="new_left2">
+                    <h4 class="new_tit">2017-10-24</h4>
+                    <h3 class="new_tit2">网站内容更新应以原创<br>创造价值内容为主</h3>
+                    <a href="#" class="look_xq">—查看详情</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 new_right_box">
+            <img src="__STATIC__/index/images/new5.png">
+            <h4 class="new_right_tit2">资讯中心</h4>
+            <div class="new_right_tit3">“品牌”不仅仅是一个商标，一件产品，更是一种品质
+                它用良好的质量维系消费者对企业的信赖</div>
+            <div class="square1"><img src="__STATIC__/index/images/new6.png"></div>
+            <div class="more_new"><a href="#">MORE</a></div>
+        </div>
+    </section>
+</div>
+<section class="brand_box">
+    <h1 class="pinp_datit"><img src="__STATIC__/index/images/pin_tit.png"><br><small style="display: inline-block;line-height: 80px;color: #858585;font-size: 30px;">品牌大客户</small></h1>
+	<div class="section">
+		<div class="customer-wall"></div>
+        <script type="text/javascript">
+             $(window).bind('scroll',function(){
+                   if($('.section').position().top - $(window).scrollTop() < 650)
+                   {
+                    $('.customer-wall').addClass("customer-wall-active");
+                   }else{
+                    $('.customer-wall').removeClass("customer-wall-active");
+                   }
+                })
+        </script>
+	</div>
+	
+</section>

@@ -1,0 +1,119 @@
+<div class="content-hd">
+	<fieldset class="layui-elem-field layui-field-title" >
+		<legend>修改门店</legend>
+	</fieldset>
+</div>
+<div class="rhaphp-srivice-register">
+	<form class="layui-form layui-form-pane" action="" lay-filter="example">
+		<input type="hidden" name="pkid" value="<?php echo $list['id']; ?>">
+		<input type="hidden" name="beName" value="<?php echo $list['store_name']; ?>">
+		<div class="layui-form-item">
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color">*</i>门店名称</label>
+				<div class="layui-input-inline">
+					<input name="store_name" required="" lay-verify="required" placeholder="请输入门店名称" autocomplete="off" class="layui-input" type="text" value="<?php echo $list['store_name']; ?>">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color">*</i>手机号</label>
+				<div class="layui-input-inline">
+					<input name="mobile" required="" lay-verify="required" placeholder="请输入手机号" autocomplete="off" class="layui-input" type="tel" maxlength="13" value="<?php echo $list['mobile']; ?>">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color">*</i>联系人</label>
+				<div class="layui-input-inline">
+					<input name="linkman" required="" lay-verify="required" placeholder="请输入联系人" autocomplete="off" class="layui-input" type="text" value="<?php echo $list['linkman']; ?>">
+				</div>
+			</div>
+			
+			<div class="layui-form-item">
+				<label class="layui-form-label">门店LOGO</label>
+				<div class="layui-input-block">
+					<div class="layui-upload">
+						<input type="hidden" name="logo" value="<?php echo $list['logo']; ?>">
+						<button type="button" class="layui-btn layui-btn-primary" id="img" ><i class="layui-icon"></i>上传图片</button>
+						<small class="layui-word-aux">大小20M以下，后缀格式：jpg | png | jpeg</small>
+						<div class="layui-upload-list">
+							<img class="layui-upload-img" id="imgImg" <?php echo $list['logo'] ? 'src="'. $list['logo'] .'"' : ''; ?> style="width:50%; height:50%;">
+							<p id="imgText"></p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color">*</i>详细地址</label>
+				<div class="layui-input-inline" style="width: 300px;">
+					<input name="address" required="" lay-verify="required" placeholder="请输入门店详细地址" autocomplete="off" class="layui-input" type="text" value="<?php echo $list['address']; ?>">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button class="layui-btn" lay-submit="" lay-filter="ActUpStore">立即提交</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<script>
+    layui.use(['form', 'upload'], function () {
+        var form = layui.form,
+		upload = layui.upload;
+		var upimageInst = upload.render({
+			elem: '#img' //指向容器选择器
+			,url: 'upImages' //服务端上传接口
+			,accept: 'images' //指定允许上传时校验的文件类型
+			,exts: 'jpg|png|jpeg' //允许上传的文件后缀
+			,field: 'file' //设定文件域的字段名
+			,size: 20 * 1024 * 1024 //设置文件最大可允许上传的大小，单位 KB
+			,multiple: false //是否允许多文件上传
+			,number: 1 //设置同时可上传的文件数量
+			,before: function(obj){
+				layer.load(2, {shade: [1, '#FFF']});
+			}
+			,done: function(res){
+				layer.closeAll();
+				<!-- 如果上传失败 -->
+				if(res.error > 0){
+					<!-- 演示失败状态，并实现重传 -->
+					var imgText = $('#imgText');
+					imgText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-mini demo-reload">重试</a>');
+						imgText.find('.demo-reload').on('click', function(){
+						upimageInst.upload();
+					});
+					return layer.msg(res.msg, {icon: 2, anim: 6});
+				}
+				<!-- 上传成功 -->
+				$('input[name="logo"]').attr("value", res.url);
+				$('#imgImg').attr('src', res.url);
+				$('#imgText').html('');
+			}
+			,error: function(){
+				setTimeout(function(){layer.closeAll()}, 2000);
+				<!-- 演示失败状态，并实现重传 -->
+				var imgText = $('#imgText');
+				imgText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-mini demo-reload">重试</a>');
+					imgText.find('.demo-reload').on('click', function(){
+					upimageInst.upload();
+				});
+			}
+		});
+        form.on('submit(ActUpStore)', function (data) {
+			$.post(
+				"upStore",
+				data.field,
+				function (obj) {
+					if(obj.ret == 200){
+						layer.msg(obj.msg, {time: 1500}, function(){
+							window.location.reload();
+						});
+					}
+					else{
+						layer.msg(obj.msg, {time: 1500, anim: 6});
+					}
+				}
+			);
+			return false;
+        });
+    });
+</script>

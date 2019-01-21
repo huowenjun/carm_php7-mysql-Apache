@@ -1,0 +1,78 @@
+<div class="content-hd">
+	<fieldset class="layui-elem-field layui-field-title" >
+		<legend>系统日志</legend>
+	</fieldset>
+</div>
+<div style="padding: 0px 10px 0px 10px;">
+	<form class="layui-form" action="">
+		<div class="layui-col-md2">
+			<div class="layui-form-item">
+				<input type="text" name="name" placeholder="请输入创建人"
+					   value="<?php echo input('name'); ?>" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-col-md2">
+			<div class="layui-form-item" style="margin-left: 5px;">
+				<input type="text" name="keys" placeholder="请输入关键字"
+					   value="<?php echo input('keys'); ?>" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-col-md3">
+			<div class="layui-input-item" style="margin-left: 5px;">
+				<input type="text" id="date" name="date" placeholder="请选择时间" value="<?php echo input('date'); ?>" class="layui-input" >
+			</div>
+		</div>
+		<div class="layui-col-md1" style="margin-left: 5px;">
+			<button class="layui-btn layui-btn-primary" lay-submit lay-filter="formDemo">搜索</button>
+		</div>
+	</form>	
+	<table class="layui-table" >
+		<colgroup>
+			<col width="170">
+			<col width="150">
+			<col width="100">
+			<col width="100">
+			<col>
+		</colgroup>
+		<thead>
+			<tr>
+				<th>时间</th>
+				<th>创建人</th>
+				<th>模块</th>
+				<th>动作</th>
+				<th>内容</th>
+			</tr>
+		</thead>
+		<tbody>
+		<?php if (!(empty($list->total()))): foreach ($list as $vo): ?>
+		<tr>
+			<td><?php echo $vo['ctime'] ? date("Y-m-d H:i:s", $vo['ctime']) : ''; ?></td>
+			<td><?php echo $vo['c_name']; ?></td>
+			<td><?php echo $vo['module']; ?></td>
+			<td><?php echo $vo['actions']; ?></td>
+			<td><?php echo $vo['contents']; ?></td>
+		</tr>
+		<?php endforeach; else: ?>
+		<tr>
+			<td colspan="6">暂无记录</td>
+		</tr>
+		<?php endif; ?>
+		</tbody>
+	</table>
+	<?php if (!(empty($list))): ?>
+		<div style="text-align: left;"><?php echo $list->render(); ?></div>
+	<?php endif; ?>
+</div>
+<script>
+layui.use(['layer', 'laydate'], function() {
+	var layer = layui.layer,
+		laydate = layui.laydate,
+		$ = layui.jquery;
+	layer.closeAll('iframe');//关闭弹窗
+	<!-- 日期范围 -->
+	laydate.render({
+		elem: '#date'
+		,range: true
+	});
+});
+</script>

@@ -1,0 +1,219 @@
+<div class="content-hd">
+	<fieldset class="layui-elem-field layui-field-title" >
+		<legend>更改管理员密码</legend>
+	</fieldset>
+</div>
+<div class="rhaphp-srivice-register">
+	<form class="layui-form layui-form-pane" action="/editmember" lay-filter="example" method="post">
+	<input type="hidden" name="id" value="<?php echo $list['id']; ?>">
+	<input type="hidden" name="beName" value="<?php echo $list['admin_name']; ?>">
+		<div class="layui-form-item">
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color">*</i>姓名</label>
+				<div class="layui-input-inline layui-serach">
+					<input name="uname" required="" lay-verify="required|max:5" placeholder="请输入姓名"  value="{$list.uname}" maxlength="5" autocomplete="off" class="layui-input" type="text">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color">*</i>电话</label>
+				<div class="layui-input-inline">
+					<input name="tel" required="" lay-verify="required|max:11|number" maxlength="11" placeholder="请输入姓名"  value="{$list.tel}" autocomplete="off" class="layui-input" type="text">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color">*</i>城市</label>
+				<div class="layui-input-inline">
+					<select name="room_city">
+						{volist name="city_list" id="ct"}
+							<option value="{$ct.id}" {eq name="ct.id" value="$list.room_city"}selected{/eq}>{$ct.text}</option>
+						{/volist}
+					</select>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color">*</i>域账号</label>
+				<div class="layui-input-inline">
+					<input name="admin_name" required="" lay-verify="required|unique:admin" placeholder="请输入域账号" value="{$list.admin_name}" autocomplete="off" class="layui-input" type="text">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color">*</i>密码</label>
+				<div class="layui-input-inline">
+					<input name="password"  placeholder="请输入密码" autocomplete="off"  class="layui-input" type="password" onpaste="return false" oncontextmenu="return false" oncopy="return false" oncut="return false">
+				</div>
+				<div class="layui-form-mid layui-word-aux">不填写则不会变更密码</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color">*</i>重复密码</label>
+				<div class="layui-input-inline">
+					<input name="repassword"  placeholder="请输入密码" autocomplete="off" class="layui-input" type="password" onpaste="return false" oncontextmenu="return false" oncopy="return false" oncut="return false">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i class="required-color">*</i>职能</label>
+				{empty name="list.adminrole"}
+				<div id="position">
+					<div class="layui-inline" style="width:350px">
+			            <input type="text" autocomplete="on" class="layui-input" id="city-picker" name="city-picker[]" readonly="readonly" data-toggle="city-picker" placeholder="请选择省市">
+					</div>
+					<div class="layui-inline">
+						<select name="position_id[]">
+							<option value="">请选择</option>
+							{volist name="position_list" id="us"}
+								<option value="{$us.id}">{$us.name}</option>
+							{/volist}
+						</select>
+					</div>
+				</div>
+				<script>
+					layui.use(['table', 'citypicker'], function () {
+       
+			                table = layui.table
+			                , cityPicker = layui.citypicker;
+
+			 			var currentPicker = new cityPicker("#city-picker", {
+			                provincename:"provinceId",
+			                cityname:"cityId",
+			                // districtname:"districtId",
+			                level: 'cityId',// 级别
+			                isarray:true,
+			            });
+
+			        });
+				</script>
+				{/empty}
+				{volist name="list.adminrole" id="ro" key="k"}
+				<div {neq name="k" value="1"} style="margin-left:110px;"{/neq}>
+					<div class="layui-inline" style="width:350px">
+			            <input type="text" autocomplete="on" class="layui-input" id="city-picker{$k}" name="city-picker[]" readonly="readonly" data-toggle="city-picker{$k}" placeholder="请选择省市">
+						<input type="hidden" name="admonrole_id[]" value="{$ro.id}">
+					</div>
+					<script type="text/javascript">
+						layui.use('citypicker',function(){
+							var cityPicker = layui.citypicker;
+						var city_pickers = 'city-picker'+"{$k}"
+						var city_pickers = new cityPicker("#"+city_pickers, {
+				                provincename:"provinceId",
+				                cityname:"cityId",
+				                // districtname:"districtId",
+				                level: 'cityId',// 级别
+				                isarray:true,
+				            });
+							city_pickers.setValue("{$ro.city_picker}");
+						})
+						
+					</script>
+					<div class="layui-inline">
+						<select name="position_id[]">
+							<option value="">请选择</option>
+							{volist name="position_list" id="us"}
+								<option value="{$us.id}" {eq name="us.id" value="$ro.role_id"}selected{/eq}>{$us.name}</option>
+							{/volist}
+						</select>
+					</div>
+					{gt name="k" value="1"}
+						<button type="button" class="layui-btn layui-btn-sm layui-btn-danger" onclick="delete_position(this)"><i class="layui-icon"></i></button>
+					{/gt}
+				</div>
+				{/volist}
+				<div class="layui-btn-group" style="margin-left: 110px;">
+    				<button type="button" class="layui-btn layui-btn-sm" onclick="add_form(this)"><i class="layui-icon"></i></button>
+    			</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button class="layui-btn" lay-submit="" lay-filter="*">确认更改</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<div id="position2" style="display: none;" class="layui-form layui-form-item">
+	<div  style="margin-left: 110px" class="zhineng">
+		<div class="layui-inline" style="width:350px">
+	        <input type="text" autocomplete="on" class="layui-input"  name="city-picker[]" readonly="readonly" data-toggle="" placeholder="请选择省市">
+	        <input type="hidden" name="admonrole_id[]" value="">
+		</div>
+		<div class="layui-inline">
+			<select name="position_id[]">
+				<option value="">请选择</option>
+				{volist name="position_list" id="us"}
+					<option value="{$us.id}">{$us.name}</option>
+				{/volist}
+			</select>
+		</div>
+		<button type="button" class="layui-btn layui-btn-sm layui-btn-danger" onclick="delete_position(this)"><i class="layui-icon"></i></button>
+	</div>
+</div>
+<script>
+   //  layui.use('form', function () {
+   //      var form = layui.form;
+   //      form.on('submit(updatepwd)', function (data) {
+			// $.post(
+			// 	'updateAdminPwd',
+			// 	data.field,
+			// 	function(obj){
+			// 		if(obj.ret == 200){
+			// 			layer.msg(obj.msg, {time: 1500}, function(){
+			// 				window.location.reload();
+			// 			});
+			// 		}
+			// 		else{
+			// 			layer.msg(obj.msg, {time: 1500, anim: 6});
+			// 		}
+			// 	}
+			// );
+   //          return false;
+   //      });
+   //  });
+    // layui.config({
+    //         base: '/static/layui/city-picker/' //静态资源所在路径
+    //     }).extend({
+    //         index: 'city-picker' //主入口模块
+    //         , citypicker: '{/}/static/layui/city-picker/city-picker' // {/}的意思即代表采用自有路径，即不跟随 base 路径
+    //     }).use(['table', 'citypicker'], function () {
+       
+    //             table = layui.table
+    //             , cityPicker = layui.citypicker;
+
+ 			// var currentPicker = new cityPicker("#city-picker", {
+    //             provincename:"provinceId",
+    //             cityname:"cityId",
+    //             // districtname:"districtId",
+    //             level: 'cityId',// 级别
+    //             isarray:true,
+    //         });
+
+    //     });
+        function add_form(obj){
+			var div = $("#position2").children().clone();
+			var timestamp = (new Date()).getTime(); 
+			
+			var p_num = $(".zhineng").length;
+			var city_picker = 'city-picker'+timestamp+p_num;
+			div.children().find('input[name^=city-picker]').attr('data-toggle',city_picker).attr('id',city_picker);
+			a = $(obj).parents('.layui-btn-group').before(div);
+			var city_picker = new cityPicker("#"+city_picker, {
+	            provincename:"provinceId",
+	            cityname:"cityId",
+	            // districtname:"districtId",
+	            level: 'cityId',// 级别
+	            isarray:true,
+	        });
+	        
+			form.render('select')
+		};
+	function delete_position(obj){
+        	var that = $(obj);
+			layer.confirm('确定要删除该职能吗', {
+			  btn: ['确定','取消'] //按钮
+			}, function(index){
+				console.log(123);
+				layer.close(index)
+			  a = that.parent().remove();
+			  console.log(a)
+			}, function(){
+			 
+			});
+		}
+</script>

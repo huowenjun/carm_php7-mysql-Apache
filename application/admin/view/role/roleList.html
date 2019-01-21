@@ -1,0 +1,53 @@
+<div class="content-hd">
+	<fieldset class="layui-elem-field layui-field-title" >
+		<legend>角色列表</legend>
+		<?php if(in_array(31, $role_operation_ids)): ?>
+		<div style="text-align: left;">
+			<a href="addRole.html" class="layui-btn layui-btn-sm layui-btn-normal">增加角色</a>
+		</div>
+		<?php endif; ?>
+	</fieldset>
+</div>
+<div style="padding: 0px 10px 0px 10px;">
+	<table class="layui-table" >
+		<colgroup>
+			<col width="150">
+			<col width="400">
+			<col>
+		</colgroup>
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>职能名称</th>
+				<th>等级</th>
+				<th>时间</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+		<?php if (!(empty($list->total()))): foreach ($list as $vo): ?>
+		<tr>
+			<td><?php echo $vo['id']; ?></td>
+			<td><?php echo $vo['name']; ?></td>
+			<td><?php echo $vo['level']; ?></td>
+			<td><?php echo $vo['utime'] ? date("Y-m-d H:i:s", $vo['utime']) : 0; ?></td>
+			<td>
+			<?php if(in_array(16, $role_operation_ids)): ?>
+				<a class="rha-bt-a" href="authGroup.html?id=<?php echo $vo['id']; ?>">授权</a>
+			<?php endif; ?>
+			<?php if(in_array(32, $role_operation_ids)): ?>
+				<a class="rha-bt-a" href="UpRole.html?id=<?php echo $vo['id']; ?>">修改</a>
+			<?php endif; ?>
+			</td>
+		</tr>
+		<?php endforeach; else: ?>
+		<tr>
+			<td colspan="4">暂无记录</td>
+		</tr>
+		<?php endif; ?>
+		</tbody>
+	</table>
+	<?php if (!(empty($list))): ?>
+		<div style="text-align: left;"><?php echo $list->render(); ?></div>
+	<?php endif; ?>
+</div>

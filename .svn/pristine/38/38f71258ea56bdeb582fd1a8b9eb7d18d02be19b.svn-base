@@ -1,0 +1,50 @@
+<div class="content-hd">
+	<fieldset class="layui-elem-field layui-field-title" >
+		<legend>分配角色</legend>
+	</fieldset>
+</div>
+<div class="rhaphp-srivice-register">
+	<form class="layui-form layui-form-pane" action="" >
+	<input type="hidden" name="pkid" value="<?php echo $list['id']; ?>">
+	<input type="hidden" name="beName" value="<?php echo $list['admin_name']; ?>">
+		<div class="layui-form-item">
+			<label class="layui-form-label"><i class="required-color">*</i>角色名称</label>
+			<div class="layui-input-block">
+				<select name="roleId" lay-verify="required">
+					<option value=""></option>
+					<?php foreach($roleList as $v): ?>
+						 <option <?php if($v['id'] === $list['role_id']): ?>selected<?php endif; ?> value="<?php echo $v['id']; ?>"><?php echo $v['name']; ?></option>
+					<?php endforeach;?>
+				</select>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-input-block">
+				<button class="layui-btn" lay-submit="" lay-filter="ActAssRole">立即提交</button>
+			</div>
+		</div>
+	</form>
+</div>
+<script>
+layui.use('form', function(){
+    var form = layui.form;
+	form.on('submit(ActAssRole)', function (data) {
+		$.post(
+			"AssRole",
+			data.field,
+			function (obj) {
+				if(obj.ret == 200){
+					layer.msg(obj.msg, {time: 1500}, function(){
+						window.location.reload();
+					});
+				}
+				else{
+					layer.msg(obj.msg, {time: 1500, anim: 6});
+				}
+			},
+			"json"
+		);
+		return false;
+	});
+});
+</script>
