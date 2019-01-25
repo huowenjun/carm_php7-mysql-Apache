@@ -1,0 +1,151 @@
+<?php
+/**
+ * 活动中心
+ * User: 霍文俊
+ * Date: 2019/1/22
+ * Time: 14:04
+ */
+
+namespace app\car\controller;
+
+
+use think\Request;
+use \app\car\model\Activity as ActivityM;
+
+class Activity extends Controller
+{
+    private $obj;
+    private $type;
+
+    public function __construct(Request $request = null)
+    {
+        parent::__construct($request);
+        $this->obj = new ActivityM();
+        $this->type = config('activity_type');
+    }
+
+    /**
+     * 查看用户活动明细
+     * @return array
+     */
+    public function listA()
+    {
+        $data = array();
+        if (request()->isPost()) {
+            $post = request()->post();
+            if (!cache($post['token'])) {
+                return $this->renderError('登录过期或已失效，请重新登录');
+            }//验证token
+            $where['u_id'] = cache($post['token']);//用户id
+            //当前页
+            $data['now_page'] = isset($post['now_page']) ? $post['now_page'] : 1;
+            //总页码
+            $data['sum_page'] = ceil(($this->obj->where(['u_id' => $where['u_id']])->count()) / PAGE);
+            //获取用户活动明细
+            $data['res'] = $this->obj->allList(PAGE, $data['now_page'], $where);
+            return $this->renderSuccess('活动中心', $data);
+        }
+    }
+
+    /**
+     * 增加用户活动明细
+     */
+    public function addA()
+    {
+        //TODO::接收的参数😊
+        /**
+         * 1.此活动id(activity_id)
+         * 2.此活动类型(type)
+         * 3.用户id(u_id)
+         * 4.城市city
+         */
+        //接收参数
+        if (request()->isPost()) {
+            $post = $this->postData();
+            if (!cache($post['token'])) {
+                return $this->renderError('登录过期或已失效，请重新登录');
+            }
+            $result = $this->validate($post, 'Activity.add');
+            if (true !== $result) {
+                return $this->renderError($result);
+            }//验证数据,通过->
+            /*
+             * 查询次活动的详情和用户对于此活动的详情
+             */
+            $activityArr = db('activity')
+                ->where([
+                    'id' => $post['activity_id'],
+                    'delete_time' => NULL
+                ])
+                ->find();//查询次活动的详情
+            if (!$activityArr) {
+                return $this->renderError('活动不存在');
+            }
+            $activityUserArr = db('activity_log')
+                ->where([
+                    'u_id' => $post['u_id'],
+                    'activity_id' => $post['activity_id'],
+                    'type_u' => $post['type'],
+
+                ])
+                ->find();
+            $rule = $this->rule($activityArr, $activityUserArr);//调用规则判断
+            p($rule);
+            if ($rule['code'] == 0) {//code为0，规则没有通过
+                return $this->renderError($rule['msg']);
+            }
+            if (empty($activityUserArr) && $rule['code'] == 1) {//用户已经参加过活动，验证通过，修改数据
+
+
+            } elseif (!empty($activityUserArr) && $rule['code'] == 1) {//用户没有参加过活动，验证通过，添加数据
+
+
+            }
+        } else {
+            return $this->renderError('请求错误');
+        }
+
+    }
+
+    //条件判断
+    private function rule($activityArr = false, $activityUserArr = false)
+    {
+        //TODO::考虑条件🤔
+        /**
+         * 1.活动时间判断，是否结束
+         * 2.此活动总人数判断
+         * 3.此活动总次数判断
+         * 4.此活动总币额判断
+         * 5.此活动个人月次数、判断
+         * 6.此活动个人月总金额是否超过预额
+         * 7.此活动个人日总次数判断，
+         * 8.此活动个人日总金额是否超过预额
+         */
+
+        $activity_time = strtotime(explode(' - ', $activityArr['activity_time'])[1]);
+        if ($activity_time <= strtotime(date('Y-m-d'))) {
+            return ['code' => 0, 'msg' => '该活动已经结束'];
+        }//1.活动时间判断，是否结束
+        $a_sum_p = $activityArr['sum_people'];//活动限制总人数
+        $a_sum_n = db('activity_log')->where(['activity_id' => $activityArr['id']])->count();//当前人数
+        if ($a_sum_n >= $a_sum_p) {
+            return ['code' => 0, 'msg' => '该活动人数已满'];
+        }//2.此活动总人数判断
+        $sum_n_p = $activityArr['sum_n'];//活动限制总次数
+        $sum_now = db('activity_log')->where(['activity_id' => $activityArr['id']])
+            ->field("
+            sum(`sum_n_u`) as `n`,
+            sum(`sum_b_u`) as `b`
+                ")
+            ->find();
+        if ($sum_n_p <= $sum_now['n']) {
+            return ['code' => 0, 'msg' => '该活动已达上限'];
+        }//3.此活动总次数判断
+        $sum_b_p = $activityArr['sum_b'];//活动限制的总币数
+        if ($sum_b_p<=$sum_now['b']) {
+            return ['code' => 0, 'msg' => '该活动多币上限'];
+        }//4此活动总币额判断
+    }
+
+
+}

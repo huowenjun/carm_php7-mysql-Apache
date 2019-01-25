@@ -1,0 +1,78 @@
+<div class="content-hd">
+    <fieldset class="layui-elem-field layui-field-title" >
+        <legend>品牌列表</legend>
+    </fieldset>
+</div>
+<div style="padding: 0px 10px 0px 10px;">
+    <?php if(in_array(42, $role_operation_ids)): ?>
+
+        <a href="editBrand.html" class="layui-btn layui-btn-sm layui-btn-normal" style="margin-bottom: 10px">添加品牌</a>
+
+    <?php endif; ?>
+    <table class="layui-table" >
+        <colgroup>
+            <col width="150">
+            <col width="150">
+            <col width="150">
+            <col width="150">
+        </colgroup>
+        <thead>
+        <tr>
+            <th>编号</th>
+            <th>logo</th>
+            <th>名称</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php if (!(empty($list->total()))): foreach ($list as $vo): ?>
+        <tr>
+            <td>{$vo.id}</td>
+            <td><img src="{$vo.img}" alt="" width="50px" height="50px"></td>
+            <td>{$vo.name}</td>
+            <td>
+                <?php if(in_array(55, $role_operation_ids)): ?>
+                <a class="rha-bt-a" href="editBrand.html?id=<?php echo $vo['id']; ?>">修改</a>
+                <?php endif; ?>
+                <?php if(in_array(54, $role_operation_ids)): ?>
+                <a href="javascript:void(0);" onclick="Del('<?php echo $vo['id']; ?>', '<?php echo $vo['name']; ?>')"
+                   class="rha-bt-a">删除</a>
+                <?php endif; ?>
+                <?php if(in_array(53, $role_operation_ids)): ?>
+                <a class="rha-bt-a" href="infoBrand.html?id=<?php echo $vo['id']; ?>">详情</a>
+                <?php endif; ?>
+            </td>
+        </tr>
+        <?php endforeach; else: ?>
+        <tr>
+            <td colspan="4">暂无记录</td>
+        </tr>
+        <?php endif; ?>
+        </tbody>
+    </table>
+    <?php if (!(empty($list))): ?>
+    <div style="text-align: left;"><?php echo $list->render(); ?></div>
+    <?php endif; ?>
+</div>
+<script>
+    function Del(pkid, beName)
+    {
+        layui.use('layer', function(){
+            var layer = layui.layer;
+            layer.confirm('你确定要删除吗？', {
+                btn: ['是','不'] //按钮
+            }, function(){
+                $.post(
+                    'delBrand',
+                    {'pkid':pkid, 'beName':beName},
+                    function(obj){
+                        layer.msg(obj.msg, {time: 1500}, function(){
+                            window.location.reload();
+                        });
+                    },
+                    "json"
+                );
+            });
+        });
+    }
+</script>

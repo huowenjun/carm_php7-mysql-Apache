@@ -1,0 +1,58 @@
+<?php
+/**
+ * 活动中心
+ * User: 霍文俊
+ * Date: 2019/1/22
+ * Time: 14:04
+ */
+
+namespace app\car\controller;
+
+
+use think\Request;
+use \app\car\model\Activity as ActivityM;
+class Activity extends Controller
+{
+    private $obj;
+    private $type;
+
+    public function __construct(Request $request = null)
+    {
+        parent::__construct($request);
+        $this->obj = new ActivityM();
+        $this->type = config('activity_type');
+    }
+
+    /**
+     * 查看用户活动明细
+     * @return array
+     */
+    public function listA()
+    {
+        $data = array();
+        if(request()->isPost()){
+            $post = request()->post();
+            if(!cache($post['token'])){
+                return $this->renderError('登录过期或已失效，请重新登录');
+            }//验证token
+            $where['u_id'] = cache($post['token']);//用户id
+            //当前页
+            $data['now_page'] = isset($post['now_page'])?$post['now_page']:1;
+            //总页码
+            $data['sum_page'] = ceil(($this->obj->where(['u_id'=>$where['u_id']])->count())/PAGE);
+            //获取用户活动明细
+            $data['res'] = $this->obj->allList(PAGE,$data['now_page'],$where);
+            return $this->renderSuccess('活动中心',$data);
+        }
+    }
+
+    /**
+     * 增加用户活动明细
+     */
+    public function addA()
+    {
+
+    }
+
+
+}

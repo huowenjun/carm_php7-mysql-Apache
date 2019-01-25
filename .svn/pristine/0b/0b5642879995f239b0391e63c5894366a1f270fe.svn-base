@@ -1,0 +1,69 @@
+<style>
+    .f{
+        width: auto;
+    }
+
+</style>
+<div class="content-hd">
+    <fieldset class="layui-elem-field layui-field-title" >
+        <legend>系列<?php echo $title==1?'修改':'添加';?></legend>
+    </fieldset>
+</div>
+<form class="layui-form" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">品牌</label>
+        <div class="layui-input-block">
+            <select name="b_id" lay-verify="required">
+                <option value=""></option>
+                {foreach $b_list as $v}
+                <option value="{$v.id}" {if condition='isset($list.b_id) && $list.b_id==$v.id'} selected {/if} >{$v.name}</option>
+                {/foreach}
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">类型</label>
+        <div class="layui-input-block">
+            <input type="text" value="{if condition='isset($list.type)'} {$list.type}{/if}" name="type" required  lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">名称</label>
+        <div class="layui-input-block">
+            <input type="text" value="{if condition='isset($list.name)'} {$list.name}{/if}" name="name" required  lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <input type="hidden" {if condition='isset($list.name)'} value=" {$list.name}" name="Pname" {/if} >
+            <input type="hidden" {if condition='isset($list.id)'} value="{$list.id}" name="id" {/if}>
+            <button class="layui-btn" lay-submit lay-filter="brandAdd">立即提交</button>
+        </div>
+    </div>
+</form>
+<script>
+    //Demo
+    layui.use('form', function(){
+        var form = layui.form;
+        form.on('submit(brandAdd)', function(data){
+            $.post(
+                "editSeries",
+                data.field,
+                function (obj) {
+                    console.log(obj);
+                    if(obj.ret == 200){
+                        layer.msg(obj.msg, {time: 1500}, function(){
+                            window.location.reload();
+                        });
+                    }
+                    else{
+                        layer.msg(obj.msg, {time: 1500, anim: 6});
+                    }
+                }
+            );
+            return false;
+        });
+
+    });
+
+</script>

@@ -1,0 +1,61 @@
+<style>
+    .f{
+        width: auto;
+    }
+
+</style>
+<div class="content-hd">
+    <fieldset class="layui-elem-field layui-field-title" >
+        <legend>品牌<?php echo $title==1?'修改':'添加';?></legend>
+    </fieldset>
+</div>
+<form class="layui-form" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label"><i class="required-color">*</i>Logo</label>
+        <div class="layui-upload-drag" id="up_img">
+            <input type="hidden" name="img" lay-verify="imgs" {if condition="isset($list.img)"} value="{$list.img}" {/if}>
+            <img {if condition=' isset($list.img)'} src="{$list.img}" style="background: #ddd" {else/} style="display:none;background: #ddd" {/if}  alt="">
+            <i class="layui-icon"></i>
+            <p>点击上传，或将文件拖拽到此处</p>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">名称</label>
+        <div class="layui-input-block">
+            <input type="text" value="{if condition='isset($list.name)'} {$list.name}{/if}" name="name" required  lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <input type="hidden" {if condition='isset($list.name)'} value=" {$list.name}" name="Pname" {/if} >
+            <input type="hidden" {if condition='isset($list.id)'} value="{$list.id}" name="id" {/if}>
+            <button class="layui-btn" lay-submit lay-filter="brandAdd">立即提交</button>
+        </div>
+    </div>
+</form>
+<script>
+    //Demo
+    layui.use('form', function(){
+        var form = layui.form;
+        form.on('submit(brandAdd)', function(data){
+            $.post(
+                "editBrand",
+                data.field,
+                function (obj) {
+                    console.log(obj);
+                    if(obj.ret == 200){
+                        layer.msg(obj.msg, {time: 1500}, function(){
+                            window.location.reload();
+                        });
+                    }
+                    else{
+                        layer.msg(obj.msg, {time: 1500, anim: 6});
+                    }
+                }
+            );
+            return false;
+        });
+
+    });
+
+</script>

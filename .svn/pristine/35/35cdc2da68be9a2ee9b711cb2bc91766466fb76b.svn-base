@@ -1,0 +1,52 @@
+<div class="content-hd">
+    <fieldset class="layui-elem-field layui-field-title" >
+        <legend>参与活动</legend>
+    </fieldset>
+</div>
+<div style="padding: 0px 10px 0px 10px;">
+    <table class="layui-table" >
+        <colgroup>
+            <col width="150">
+            <col width="150">
+            <col width="130">
+            <col width="130">
+            <col width="150">
+            <col width="150">
+            <col width="150">
+            <col width="150">
+        </colgroup>
+        <thead>
+        <tr>
+            <th>用户名称</th>
+            <th>总得币</th>
+            <th>总次数</th>
+            <th>日总得币</th>
+            <th>日总次数</th>
+            <th>月总德币</th>
+            <th>月总次数</th>
+            <th>活动类型</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php if (!(empty($list->total()))): foreach ($list as $vo): ?>
+        <tr>
+            <td>{$vo.login_account}</td>
+            <td>{$vo.sum_b_u}</td>
+            <td>{$vo.sum_n_u}</td>
+            <td>{$vo.sum_b_d_u}</td>
+            <td>{$vo.sum_n_d_u}</td>
+            <td>{$vo.sum_b_m_u}</td>
+            <td>{$vo.sum_n_m_u}</td>
+            <td>{$vo.type_u}</td>
+        </tr>
+        <?php endforeach; else: ?>
+        <tr>
+            <td colspan="8">暂无记录</td>
+        </tr>
+        <?php endif; ?>
+        </tbody>
+    </table>
+    <?php if (!(empty($list))): ?>
+    <div style="text-align: left;"><?php echo $list->render(); ?></div>
+    <?php endif; ?>
+</div>

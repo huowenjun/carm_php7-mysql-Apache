@@ -1,0 +1,32 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: 霍文俊
+ * Date: 2019/1/23
+ * Time: 11:41
+ */
+
+namespace app\admin\controller;
+
+use think\Request;
+use \app\admin\model\ActivityLog as ActivityLogM;
+class activityLog extends Controller
+{
+    private $type;
+    private $obj;
+
+    public function __construct(Request $request = null)
+    {
+        parent::__construct($request);
+        $this->type = config('activity_type');
+        $this->obj = new ActivityLogM();
+    }
+
+    public function index(){
+        $where = array();
+        $get = $this->getData();
+        $data = $this->obj->allList(PAGE, $where);
+        return $this->fetch('', ['list' => $data]);
+    }
+
+}

@@ -1,0 +1,18 @@
+<?php
+/**
+ * 车龄.
+ * User: 霍文俊
+ * Date: 2019/1/25
+ * Time: 10:51
+ */
+
+namespace app\car\controller;
+
+
+class CarAge extends Controller
+{
+    public function getCarAge(){
+        $list = config('car_age');
+        return $this->renderSuccess('success',$list);
+    }
+}

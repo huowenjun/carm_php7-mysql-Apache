@@ -1,0 +1,70 @@
+<div class="content-hd">
+    <fieldset class="layui-elem-field layui-field-title" >
+        <legend>价格列表</legend>
+    </fieldset>
+</div>
+<div style="padding: 0px 10px 0px 10px;">
+    <?php if(in_array(94, $role_operation_ids)): ?>
+
+        <a href="editPrice.html" class="layui-btn layui-btn-sm layui-btn-normal" style="margin-bottom: 10px">编辑价格</a>
+
+    <?php endif; ?>
+    <table class="layui-table" >
+        <colgroup>
+            <col width="150">
+            <col width="150">
+            <col width="150">
+        </colgroup>
+        <thead>
+        <tr>
+            <th>编号</th>
+            <th>价格</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php if (!(empty($list))): foreach ($list as $k=>$vo): ?>
+        <tr>
+            <td>{$k}</td>
+            <td>{$vo}</td>
+            <td>
+                <?php if(in_array(94, $role_operation_ids)): ?>
+                <a class="rha-bt-a" href="editPrice.html?id=<?php echo $k; ?>">编辑</a>
+                <?php endif; ?>
+                <?php if(in_array(95, $role_operation_ids)): ?>
+                <a href="javascript:void(0);" onclick="Del('<?php echo $k; ?>', '<?php echo $vo; ?>')"
+                   class="rha-bt-a">删除</a>
+                <?php endif; ?>
+            </td>
+        </tr>
+        <?php endforeach; else: ?>
+        <tr>
+            <td colspan="3">暂无记录</td>
+        </tr>
+        <?php endif; ?>
+        </tbody>
+    </table>
+</div>
+<script>
+    function Del(pkid, beName)
+    {
+        layui.use('layer', function(){
+            var layer = layui.layer;
+            layer.confirm('你确定要删除吗？', {
+                btn: ['是','不'] //按钮
+            }, function(){
+                $.post(
+                    'delPrice',
+                    {'pkid':pkid, 'beName':beName},
+                    function(obj){
+                        console.log(obj)
+                        layer.msg(obj.msg, {time: 1500}, function(){
+                            window.location.reload();
+                        });
+                    },
+                    "json"
+                );
+            });
+        });
+    }
+</script>

@@ -1,0 +1,19 @@
+<div class="content-hd">
+    <fieldset class="layui-elem-field layui-field-title" >
+        <legend>车型详情</legend>
+    </fieldset>
+</div>
+<div class="rhaphp-srivice-register">
+    <div class="layui-form-item">
+        <label class="layui-form-label">车型:</label>
+        <label class="layui-form-label" style="width: auto;text-align: left">{$data.s}</label>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">系列:</label>
+        <label class="layui-form-label" style="width: auto;text-align: left">{$data.se}</label>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">类型:</label>
+        <label class="layui-form-label" style="width: auto;text-align: left">{$data.type}</label>
+    </div>
+</div>

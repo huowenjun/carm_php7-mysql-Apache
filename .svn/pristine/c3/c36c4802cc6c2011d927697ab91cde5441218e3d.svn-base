@@ -1,0 +1,19 @@
+<div class="content-hd">
+    <fieldset class="layui-elem-field layui-field-title" >
+        <legend>系列详情</legend>
+    </fieldset>
+</div>
+<div class="rhaphp-srivice-register">
+    <div class="layui-form-item">
+        <label class="layui-form-label">名称:</label>
+        <label class="layui-form-label" style="width: auto;text-align: left">{$data.s}</label>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">品牌:</label>
+        <label class="layui-form-label" style="width: auto;text-align: left">{$data.b}</label>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">类型:</label>
+        <label class="layui-form-label" style="width: auto;text-align: left">{$data.type}</label>
+    </div>
+</div>

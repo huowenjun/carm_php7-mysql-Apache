@@ -1,0 +1,19 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: 霍文俊
+ * Date: 2019/1/25
+ * Time: 11:07
+ */
+
+namespace app\admin\controller;
+
+
+class CarAge extends Controller
+{
+
+    public function index()
+    {
+        $dir='../runtime/temp';
+    }
+}

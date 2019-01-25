@@ -1,0 +1,65 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: 霍文俊
+ * Date: 2019/1/21
+ * Time: 14:48
+ */
+
+namespace app\admin\model;
+
+
+use think\Model;
+use think\Request;
+use traits\model\SoftDelete;
+class Activity extends Model
+{
+    protected $name = 'activity';
+    protected $pk = 'id';
+    use SoftDelete;
+    protected $deleteTime = 'delete_time';
+
+    protected function getTypeAttr($value){
+        return config('activity_type')[$value];
+    }
+    protected function getCityAttr($value){
+        $city = Cache('city_list');
+        foreach($city as $k=>$v)
+        {
+            if($v['id']==$value){
+                return $v['text'];
+            }
+        }
+    }
+
+    /**
+     * 活动列表
+     * @param $page
+     * @param $where
+     * @return \think\Paginator
+     * @throws \think\exception\DbException
+     */
+    public function allList($page,$where){
+        $data = $this
+            ->where($where)
+            ->order('id DESC')
+            ->paginate($page, false, [
+                'query' => Request::instance()->request()
+            ]);
+        return $data;
+    }
+
+    public function resave($data=false){
+        if(isset($data['id'])&&$data['id']!=''){//修改
+            unset($data['Pname']);
+            $data['utime']=TIME;
+            $bool = $this->save($data, ['id' => $data['id']]);
+        }else{
+            unset($data['id']);
+            unset($data['Pname']);
+            $data['ctime'] = TIME;
+            $bool = $this->save($data);
+        }//添加
+        return $bool;
+    }
+}

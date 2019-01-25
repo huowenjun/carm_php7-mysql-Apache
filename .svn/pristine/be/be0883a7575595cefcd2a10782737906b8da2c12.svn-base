@@ -1,0 +1,112 @@
+<style>
+    .f{
+        width: auto;
+    }
+
+</style>
+<div class="content-hd">
+    <fieldset class="layui-elem-field layui-field-title" >
+        <legend>车龄<?php echo $title==1?'修改':'添加';?></legend>
+    </fieldset>
+</div>
+<form class="layui-form" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">最小年份:</label>
+        <div class="layui-input-block">
+            <input type="text" value="{if condition='isset($list.start)'}{$list.start}{else/}0{/if}" name="start"
+                   required  lay-verify="required" onkeyup="value=value.replace(/[^\d]/g,'')" autocomplete="off" class="layui-input start">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">最大年份:</label>
+        <div class="layui-input-block">
+            <input type="text" value="{if condition='isset($list.end)'}{$list.end}{else/}0{/if}" name="end"
+                   required  lay-verify="required" onkeyup="value=value.replace(/[^\d]/g,'')" autocomplete="off" class="layui-input end">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">车龄:</label>
+        <label class="layui-form-label" style="width: auto">
+            <span class="v">{if condition='isset($list.v)'}{$list.v}{else/}一年以内{/if}</span>&emsp;(温馨提示:如不填写，默认一年以内)
+        </label>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <input type="hidden" {if condition='isset($list.start)&&isset($list.end)'} value="{$list.start}_{$list.end}" name="Pname" {/if} >
+            <input type="hidden" {if condition='isset($list.start)&&isset($list.end)'} value="{$list.start}-{$list.end}" name="id" {/if}>
+            <button class="layui-btn" lay-submit lay-filter="brandAdd">立即提交</button>
+        </div>
+    </div>
+</form>
+<script>
+    $('.start').keyup(function () {
+        start = $(this).val();
+        end = $('.end').val();
+        if(start==0&&end!=0){
+            $('.v').html($('.end').val()+'年以上');
+        }else if(start!=0&&end==0){
+            $('.v').html($(this).val()+'年以内');
+        }else if(start==0&&end==0){
+            $('.v').html('1年以内');
+        } else {
+            $('.v').html($(this).val()+'-'+$('.end').val()+'年');
+        }
+    });
+
+    $('.end').keyup(function () {
+        start = $('.start').val();
+        end = $('.end').val();
+         if(start==0&&end==0){
+            $('.v').html('1年以内');
+        }else if(start!=0&&end==0){
+            $('.v').html($('.start').val()+'年以内');
+        }else if(start==0&&end!=0){
+            $('.v').html($('.end').val()+'年以上');
+        } else {
+            $('.v').html($('.start').val()+'-'+$('.end').val()+'年');
+        }
+    });
+    //Demo
+    layui.use('form', function(){
+        var form = layui.form;
+        layer = layui.layer;
+        form.on('submit(brandAdd)', function(data){
+            if(data.field['start']==""||data.field['end']==""){
+                layer.msg('填写不规范', {time: 1500}, function(){
+                    window.location.reload();
+                });
+                return false;
+            }
+            if(data.field['start']!="0"&&data.field['end']!="0"&&parseInt(data.field['start'])==parseInt(data.field['end'])){
+                layer.msg('填写不规范', {time: 1500}, function(){
+                    window.location.reload();
+                });
+                return false;
+            }
+            if(data.field['start']!="0"&&data.field['end']!="0"&&parseInt(data.field['start'])>=parseInt(data.field['end'])){
+                layer.msg('填写不规范', {time: 1500}, function(){
+                    window.location.reload();
+                });
+                return false;
+            }
+            $.post(
+                "editCarAge",
+                data.field,
+                function (obj) {
+                    console.log(obj);
+                    if(obj.ret == 200){
+                        layer.msg(obj.msg, {time: 1500}, function(){
+                            window.location.href='indexCarAge';
+                        });
+                    }
+                    else{
+                        layer.msg(obj.msg, {time: 1500, anim: 6});
+                    }
+                }
+            );
+            return false;
+        });
+
+    });
+
+</script>

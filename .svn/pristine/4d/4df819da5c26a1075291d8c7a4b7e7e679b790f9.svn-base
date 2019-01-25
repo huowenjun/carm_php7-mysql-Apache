@@ -1,0 +1,31 @@
+<?php
+/**
+ * 属性品牌
+ * User: 霍文俊
+ * Date: 2019/1/24
+ * Time: 13:59
+ */
+
+namespace app\car\controller;
+
+
+use think\Request;
+use \app\admin\model\Brand as BrandM;
+class Brand extends Controller
+{
+    public $obj;
+    public function __construct(Request $request = null)
+    {
+        parent::__construct($request);
+        $this->obj = new BrandM();
+    }
+    public function listB(){
+        $list = $this->obj->order('py')->select();
+        $list2 = [];
+        foreach ($list as $k => $v) {
+            $list2[$v['py']]['key'] = $v['py'];
+            $list2[$v['py']]['values'][] = $v;
+        }
+        return $this->renderSuccess('sucess',array_values($list2));
+    }
+}
